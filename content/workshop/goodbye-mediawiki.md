@@ -1,6 +1,7 @@
 ---
 title: 'Goodbye, MediaWiki'
 author: GamingTwist
+ai: true
 tags: [meta]
 date: 2026-07-06
 description: 'Why the community wiki left MediaWiki behind for a static Hugo site.'

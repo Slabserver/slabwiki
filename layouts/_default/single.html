@@ -25,6 +25,7 @@
           {{ with $season }}<span class="mc-badge mc-badge-gold">{{ .LinkTitle }}</span>{{ end }}
         </div>
         {{ with .Description }}<p class="text-sm text-muted italic mt-1.5">{{ . }}</p>{{ end }}
+        {{ if .Params.ai }}<p class="text-xs text-muted mt-1.5">AI was used to assist with this page. <a href="{{ relref . "/contributing" }}" class="text-grass-hi underline">How we use AI</a></p>{{ end }}
         <div class="stripe-divider my-4"></div>
 
         <div class="prose">

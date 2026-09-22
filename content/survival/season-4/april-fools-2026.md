@@ -1,6 +1,7 @@
 ---
 title: 'April Fools 2026: The Great Slabbening'
 author: GamingTwist
+ai: true
 categories: [events, april-fools]
 date: 2026-04-01
 description: 'The year every block in the Season 4 world became a slab, and the Python that did it.'
