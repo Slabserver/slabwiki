@@ -1,0 +1,414 @@
+{
+  "$schema": "https://frontmatter.codes/frontmatter.schema.json",
+  "frontMatter.framework.id": "hugo",
+  "frontMatter.content.publicFolder": "static",
+  "frontMatter.content.defaultFrontMatterType": "YAML",
+  "frontMatter.taxonomy.dateFormat": "yyyy-MM-dd",
+  "frontMatter.preview.host": "http://localhost:1313",
+  "frontMatter.taxonomy.tags": [],
+  "frontMatter.taxonomy.categories": [
+    "builds",
+    "farms",
+    "events",
+    "puzzles",
+    "community",
+    "april-fools"
+  ],
+  "frontMatter.content.pageFolders": [
+    {
+      "title": "Survival",
+      "path": "[[workspace]]/content/survival",
+      "excludeSubDir": false
+    },
+    {
+      "title": "Nexus",
+      "path": "[[workspace]]/content/nexus",
+      "excludeSubDir": false
+    },
+    {
+      "title": "Workshop",
+      "path": "[[workspace]]/content/workshop"
+    },
+    {
+      "title": "Style Guide",
+      "path": "[[workspace]]/content/style-guide"
+    },
+    {
+      "title": "Shops (S3)",
+      "path": "[[workspace]]/content/survival/season-3/shops"
+    }
+  ],
+  "frontMatter.content.contentTypes": [
+    {
+      "name": "article",
+      "pageBundle": false,
+      "previewPath": null,
+      "template": "[[workspace]]/.frontmatter/templates/article.md",
+      "fields": [
+        {
+          "title": "Title",
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "title": "Description",
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "title": "Weight",
+          "name": "weight",
+          "type": "number"
+        },
+        {
+          "title": "Categories",
+          "name": "categories",
+          "type": "categories"
+        },
+        {
+          "title": "Tags",
+          "name": "tags",
+          "type": "tags"
+        },
+        {
+          "title": "Banner image",
+          "name": "banner",
+          "type": "image"
+        },
+        {
+          "title": "Image",
+          "name": "image",
+          "type": "image"
+        },
+        {
+          "title": "Draft",
+          "name": "draft",
+          "type": "boolean"
+        },
+        {
+          "title": "Infobox",
+          "name": "infobox",
+          "type": "fields",
+          "fields": [
+            {
+              "title": "Image",
+              "name": "image",
+              "type": "image"
+            },
+            {
+              "title": "Status",
+              "name": "Status",
+              "type": "string"
+            },
+            {
+              "title": "Designers",
+              "name": "Designers",
+              "type": "string"
+            },
+            {
+              "title": "World",
+              "name": "World",
+              "type": "string"
+            },
+            {
+              "title": "Started",
+              "name": "Started",
+              "type": "string"
+            },
+            {
+              "title": "Type",
+              "name": "Type",
+              "type": "string"
+            },
+            {
+              "title": "Coordinates",
+              "name": "Coordinates",
+              "type": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "survival",
+      "pageBundle": false,
+      "fields": [
+        {
+          "title": "Title",
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "title": "Type",
+          "name": "type",
+          "type": "string"
+        },
+        {
+          "title": "Weight",
+          "name": "weight",
+          "type": "number"
+        },
+        {
+          "title": "Description",
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "title": "Banner",
+          "name": "banner",
+          "type": "image"
+        },
+        {
+          "title": "Current season",
+          "name": "current",
+          "type": "boolean"
+        },
+        {
+          "title": "Started",
+          "name": "started",
+          "type": "string"
+        },
+        {
+          "title": "Dates",
+          "name": "dates",
+          "type": "string"
+        },
+        {
+          "title": "Spawn",
+          "name": "spawn",
+          "type": "string"
+        },
+        {
+          "title": "Cascade",
+          "name": "cascade",
+          "type": "fields",
+          "fields": [
+            {
+              "title": "Server",
+              "name": "server",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "title": "Spotlight",
+          "name": "spotlight",
+          "type": "list",
+          "field": {
+            "title": "Page ref",
+            "name": "ref",
+            "type": "string"
+          }
+        }
+      ]
+    },
+    {
+      "name": "workshop",
+      "pageBundle": false,
+      "template": "[[workspace]]/.frontmatter/templates/workshop.md",
+      "fields": [
+        {
+          "title": "Title",
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "title": "Author",
+          "name": "author",
+          "type": "string"
+        },
+        {
+          "title": "Date",
+          "name": "date",
+          "type": "datetime",
+          "default": "{{now}}"
+        },
+        {
+          "title": "Description",
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "title": "Summary",
+          "name": "summary",
+          "type": "string"
+        },
+        {
+          "title": "Tags",
+          "name": "tags",
+          "type": "tags"
+        },
+        {
+          "title": "Draft",
+          "name": "draft",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "shops",
+      "pageBundle": false,
+      "template": "[[workspace]]/.frontmatter/templates/shop.md",
+      "fields": [
+        {
+          "title": "Title",
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "title": "Type",
+          "name": "type",
+          "type": "string"
+        },
+        {
+          "title": "Owners",
+          "name": "owners",
+          "type": "string"
+        },
+        {
+          "title": "Location",
+          "name": "loc",
+          "type": "string"
+        },
+        {
+          "title": "Image",
+          "name": "image",
+          "type": "image"
+        },
+        {
+          "title": "Items",
+          "name": "items",
+          "type": "block",
+          "fields": [
+            {
+              "title": "Name",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "title": "Material",
+              "name": "material",
+              "type": "string"
+            },
+            {
+              "title": "In stock",
+              "name": "inStock",
+              "type": "boolean"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "style-guide",
+      "pageBundle": false,
+      "fields": [
+        {
+          "title": "Title",
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "title": "Type",
+          "name": "type",
+          "type": "string"
+        },
+        {
+          "title": "Weight",
+          "name": "weight",
+          "type": "number"
+        },
+        {
+          "title": "Icon",
+          "name": "icon",
+          "type": "string"
+        },
+        {
+          "title": "Description",
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "title": "Exclude from search",
+          "name": "noSearch",
+          "type": "boolean"
+        },
+        {
+          "title": "Sections",
+          "name": "sections",
+          "type": "list",
+          "field": {
+            "title": "Section",
+            "name": "section",
+            "type": "string"
+          }
+        }
+      ]
+    }
+  ],
+  "frontMatter.taxonomy.contentTypes": [
+    {
+      "name": "default",
+      "pageBundle": false,
+      "fields": [
+        {
+          "title": "title",
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "title": "author",
+          "name": "author",
+          "type": "string"
+        },
+        {
+          "title": "categories",
+          "name": "categories",
+          "type": "categories"
+        },
+        {
+          "title": "date",
+          "name": "date",
+          "type": "datetime"
+        },
+        {
+          "title": "description",
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "title": "summary",
+          "name": "summary",
+          "type": "string"
+        },
+        {
+          "title": "infobox",
+          "name": "infobox",
+          "type": "fields",
+          "fields": [
+            {
+              "title": "image",
+              "name": "image",
+              "type": "image"
+            },
+            {
+              "title": "Started",
+              "name": "Started",
+              "type": "datetime"
+            },
+            {
+              "title": "Finished",
+              "name": "Finished",
+              "type": "datetime"
+            },
+            {
+              "title": "Builders",
+              "name": "Builders",
+              "type": "string"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

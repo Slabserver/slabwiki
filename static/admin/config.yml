@@ -1,0 +1,272 @@
+# Decap CMS configuration for SlabWiki.
+# Docs: https://decapcms.org/docs/configuration-options/
+#
+# Auth is brokered by our own Discord-gated OAuth worker (see
+# services/cms-auth/), NOT GitHub's OAuth app. The worker checks the user's
+# role in the Discord guild, then returns a shared GitHub token so the commit
+# lands as a bot on a pull request. Point base_url at the deployed worker.
+backend:
+  name: github
+  repo: CodingTwist/slabwiki
+  branch: main
+  base_url: http://localhost:8787 # LOCAL AUTH TEST — revert to the deployed worker origin before commit
+  auth_endpoint: auth
+  # Route EVERY GitHub API call through our worker instead of api.github.com, so
+  # the shared GitHub token never reaches the browser — the worker holds it,
+  # verifies the Discord session, and stamps the editor's Discord identity onto
+  # commits/PRs server-side. Must be <base_url>/gh.
+  api_root: http://localhost:8787/gh # LOCAL AUTH TEST — revert to <deployed worker origin>/gh before commit
+
+# LOCAL DEV: when /admin/ is opened from localhost, Decap ignores the github
+# backend above and talks to a local proxy (`npx decap-server`) that writes
+# straight to the working tree — no Discord, no GitHub token, no Worker needed.
+# This line is inert in production (only active on localhost/127.0.0.1), so it's
+# safe to commit.
+local_backend: false # LOCAL AUTH TEST — set back to true to use the offline decap-server file proxy
+
+# Every save becomes a PR ("Editorial Workflow") rather than a direct push to
+# main, so a maintainer reviews community edits before they go live.
+publish_mode: editorial_workflow
+
+# Uploads land in the live image tree; content references them as /images/...
+media_folder: static/images
+public_folder: /images
+
+# In-editor preview points at the built site's styles is out of scope for a
+# first cut; disable the split preview pane so forms fill the screen.
+editor:
+  preview: false
+
+# Force YAML front matter (---) to match all existing files.
+# Applied per-collection via `format: yaml-frontmatter` below.
+
+collections:
+  # ---- Survival -----------------------------------------------------------
+  # One nested collection that mirrors the real content tree:
+  #   survival/season-N/            (season hub _index.md)
+  #   survival/season-N/<page>.md   (normal season pages: spawn, map, farms…)
+  #   survival/season-N/shops/…     (shops), /public-resources/, /tunnels/…
+  # The dashboard shows the folder tree exactly as it is on disk. The Path
+  # field is the page's FOLDER (e.g. season-4) — the filename comes from the
+  # title — and "+ New" pre-fills it with the folder you're browsing.
+  # Fields are the UNION of the article and season-hub shapes, so editing those
+  # pages (Decap drops keys it doesn't declare) is lossless. SHOP pages are the
+  # deliberate exception: their owners/loc/items fields are NOT declared, so
+  # Season 3 shop pages are git-only — see the note by `Hub: spotlight` below.
+  - name: survival
+    label: Survival
+    label_singular: Survival page
+    folder: content/survival
+    create: true
+    extension: md
+    format: yaml-frontmatter
+    # depth = how many folder levels Decap READS below content/survival — it is
+    # a scan depth, not a display depth. 3 covers season-N/shops|tunnels|
+    # public-resources/<page>.md; lower silently hides those files from the CMS.
+    # subfolders:false = non-legacy tree mode: the sidebar shows only folders,
+    # labelled by folder name (season-4, shops, …), and clicking a node lists
+    # ONLY its immediate children — so season pages sit under their season
+    # instead of one flat list. (Legacy mode instead titles folders by their
+    # alphabetically-first file, which is how season-3/shops showed as "3MD".)
+    nested: { depth: 3, subfolders: false, summary: '{{title}}' }
+    # NO index_file here, deliberately: with `index_file: _index` Decap treats
+    # every entry as <path>/_index.md, so saving any flat page (spawn.md,
+    # outposts.md…) fails with "Path 'season-N' already exists" — its Path
+    # collapses to its dirname, which is the hub's path. Without it, Path is
+    # simply the target folder; hubs edit fine as the `season-N/_index` entry
+    # (new hubs are created via git, once a season).
+    meta: { path: { widget: string, label: Path, hint: 'The target FOLDER, not the filename — usually the season (e.g. `season-4`). The filename is made from the Title. Sub-pages go in `season-4/shops`, `season-4/tunnels`, or `season-4/public-resources`.' } }
+    fields:
+      - { label: Title, name: title, widget: string, hint: 'Shown as the page heading and the sidebar/card label. Also becomes the filename.' }
+      - { label: Description, name: description, widget: text, required: false, hint: 'One or two sentences. Used on entry cards and in search results.' }
+      - { label: Weight, name: weight, widget: number, required: false, value_type: int, hint: 'Lower numbers sort first in the sidebar and lists. Leave blank for alphabetical.' }
+      - label: Categories
+        name: categories
+        widget: select
+        multiple: true
+        required: false
+        options: [builds, farms, events, puzzles, community, april-fools]
+        hint: 'Drives the card chip and the season-portal grouping. This is a tag, NOT a folder — pick one or more.'
+      - { label: Tags, name: tags, widget: list, required: false, hint: 'Freeform keywords for search only. Different from Categories above.' }
+      - { label: Link title (nav override), name: linkTitle, widget: string, required: false, hint: 'Optional shorter title for the nav/sidebar. Usually leave blank.' }
+      - { label: 'Icon (sprite slug — section hubs)', name: icon, widget: string, required: false, hint: 'Minecraft item sprite slug (e.g. `emerald`). Only used on section-hub `_index` pages.' }
+      - { label: 'Season (map pages, e.g. season-4)', name: season, widget: string, required: false, hint: 'Only on map pages. Ties the map to its season, e.g. `season-4`.' }
+      # Blog-style keys used by dated one-offs (e.g. season-4/april-fools-2026).
+      - { label: Author, name: author, widget: string, required: false, hint: 'Only for dated one-off posts (like the April Fools recap). Leave blank for normal pages.' }
+      - { label: Date, name: date, widget: datetime, required: false, date_format: 'yyyy-MM-dd', time_format: false, hint: 'Only for dated one-off posts. Leave blank for normal pages.' }
+      - { label: Summary, name: summary, widget: text, required: false, hint: 'Only for dated one-off posts. Leave blank for normal pages.' }
+      # Decap's media library is FLAT and non-recursive (getMedia lists one
+      # folder at depth 1), so images in static/images/<sub>/ are invisible
+      # unless a field scopes the picker to that subfolder. media_folder points
+      # the browse+upload target at the right sub-folder; public_folder keeps
+      # the written path (/images/<sub>/...) correct. {{media_folder}} and
+      # {{public_folder}} expand to the globals (static/images and /images).
+      # banner + infobox image live in /images/articles; shop card image lives
+      # in /images/season-3-shops. (season-4/ + season-4-shops/ are matched by
+      # filename in the build, never referenced by front matter, so no field.)
+      - { label: Banner image, name: banner, widget: image, required: false, choose_url: false, media_folder: '{{media_folder}}/articles', public_folder: '{{public_folder}}/articles', hint: 'Wide header image at the top of the article. Optional.' }
+      - { label: Card image, name: image, widget: image, required: false, choose_url: false, media_folder: '{{media_folder}}/season-3-shops', public_folder: '{{public_folder}}/season-3-shops', hint: 'Thumbnail on the entry/shop card. For shops this is the shopfront photo.' }
+      - { label: Draft, name: draft, widget: boolean, required: false, default: false, hint: 'On = hidden from the live site (only visible with `npm run dev`).' }
+      # The subfield list is the UNION of every infobox key used in content —
+      # object/list widgets drop undeclared subkeys on save exactly like
+      # top-level fields do. Capitalised names are intentional (they render as
+      # the infobox row labels); `title` is only used by the multi-infobox
+      # pages but is harmless here. Anchored (&infobox_fields) and reused by
+      # `infoboxes` below and the Nexus collection.
+      - label: Infobox
+        name: infobox
+        widget: object
+        required: false
+        collapsed: true
+        hint: 'The fact box in an article sidebar (Status, Builders, Coordinates…). Leave collapsed and empty if the page has no infobox. For a page with SEVERAL boxes, use "Infoboxes (multiple)" below instead.'
+        fields: &infobox_fields
+          - { label: Title (multi-infobox pages only), name: title, widget: string, required: false, hint: 'Heading above this box. Only needed when a page has several infoboxes; leave blank for a single infobox.' }
+          - { label: Image, name: image, widget: image, required: false, choose_url: false, media_folder: '{{media_folder}}/articles', public_folder: '{{public_folder}}/articles' }
+          - { label: Status, name: Status, widget: string, required: false }
+          - { label: Designers, name: Designers, widget: string, required: false }
+          - { label: Builders, name: Builders, widget: string, required: false }
+          - { label: World, name: World, widget: string, required: false }
+          - { label: Server, name: Server, widget: string, required: false }
+          - { label: Started, name: Started, widget: string, required: false }
+          - { label: Completed, name: Completed, widget: string, required: false }
+          - { label: Finished, name: Finished, widget: string, required: false }
+          - { label: Type, name: Type, widget: string, required: false }
+          - { label: Coordinates, name: Coordinates, widget: string, required: false }
+          - { label: 'Inspired by', name: 'Inspired by', widget: string, required: false }
+          - { label: Kit, name: Kit, widget: string, required: false }
+          - { label: Plot, name: Plot, widget: string, required: false }
+      # Pages with several infoboxes (e.g. season-4/outposts) use a LIST of the
+      # same shape under `infoboxes`, one per build, each with a `title`.
+      - label: Infoboxes (multiple)
+        name: infoboxes
+        widget: list
+        required: false
+        collapsed: true
+        summary: '{{fields.title}}'
+        hint: 'Only for pages showing SEVERAL fact boxes (e.g. Outposts). Give each a Title. Most pages use the single "Infobox" above instead — do not fill both.'
+        fields: *infobox_fields
+      # --- season hub (_index.md) fields, all optional ---
+      # These only apply to a season _index.md hub page; leave blank otherwise.
+      - { label: 'Hub: type', name: type, widget: hidden, required: false }
+      - { label: 'Hub: current season', name: current, widget: boolean, required: false, hint: 'SEASON HUB ONLY. On = this is the active season.' }
+      - { label: 'Hub: started', name: started, widget: string, required: false, hint: 'Season hub only. When the season began.' }
+      - { label: 'Hub: completed', name: completed, widget: string, required: false, hint: 'Season hub only. When the season ended (blank if ongoing).' }
+      - { label: 'Hub: dates', name: dates, widget: string, required: false, hint: 'Season hub only. Human-readable span, e.g. `Feb 2016 - Jul 2019`.' }
+      - { label: 'Hub: spawn', name: spawn, widget: string, required: false, hint: 'Season hub only. Spawn coordinates.' }
+      - label: 'Hub: cascade'
+        name: cascade
+        widget: object
+        required: false
+        collapsed: true
+        hint: 'SERVER/SECTION HUB ONLY. The `server` value cascades to every child page.'
+        fields:
+          - { label: Server, name: server, widget: string, required: false }
+      - { label: 'Hub: spotlight', name: spotlight, widget: list, required: false, hint: 'Season hub only. Page paths to feature on the hub, e.g. `survival/season-4/spawn`.' }
+      # NOTE: shop fields (owners/loc/items) and the shop-hub keys
+      # (seasonKey/seasonLabel) were deliberately removed from this collection.
+      # The Season 3 shop pages (content/survival/season-3/shops/*.md) still
+      # appear in the CMS tree, but because those keys aren't declared, editing
+      # a shop page HERE drops its owners/loc/items on save. Treat Season 3
+      # shops as git-only — edit them in the repo, not the CMS. (Season 4 shops
+      # are generated from a CSV and never were CMS-editable.) The `image`
+      # (Card image) key IS still declared, so a shop's photo survives edits.
+      - { label: Body, name: body, widget: markdown, required: false, hint: 'The page content, in Markdown. Hugo shortcodes work, e.g. `{{< mcicon "emerald" >}}`.' }
+
+  # ---- Nexus -------------------------------------------------------------
+  - name: nexus
+    label: Nexus
+    label_singular: Nexus page
+    folder: content/nexus
+    create: true
+    extension: md
+    format: yaml-frontmatter
+    # Same tree mode as Survival: folders in the sidebar, immediate children
+    # in the list. depth 2 covers nexus/<sub>/<page>.md.
+    nested: { depth: 2, subfolders: false, summary: '{{title}}' }
+    meta: { path: { widget: string, label: Path, hint: 'The target FOLDER, not the filename (e.g. `decked-out`). The filename is made from the Title.' } }
+    fields:
+      - { label: Title, name: title, widget: string, hint: 'Shown as the page heading and the sidebar/card label. Also becomes the filename.' }
+      - { label: Description, name: description, widget: text, required: false, hint: 'One or two sentences. Used on cards and in search.' }
+      - { label: Weight, name: weight, widget: number, required: false, value_type: int, hint: 'Lower sorts first. Leave blank for alphabetical.' }
+      - label: Categories
+        name: categories
+        widget: select
+        multiple: true
+        required: false
+        options: [builds, farms, events, puzzles, community, april-fools]
+        hint: 'A tag, not a folder. Drives the card chip. Pick one or more.'
+      - { label: Tags, name: tags, widget: list, required: false, hint: 'Freeform keywords for search only.' }
+      # Nexus has no images yet; scope the picker to /images/articles so uploads
+      # land somewhere sane and existing article art is browsable (see survival
+      # note above for why per-field media_folder is required).
+      - { label: Card image, name: image, widget: image, required: false, choose_url: false, media_folder: '{{media_folder}}/articles', public_folder: '{{public_folder}}/articles', hint: 'Thumbnail on the entry card. Optional.' }
+      - { label: Link title (nav override), name: linkTitle, widget: string, required: false, hint: 'Optional shorter title for the nav/sidebar. Usually leave blank.' }
+      - { label: 'Icon (sprite slug — section hubs)', name: icon, widget: string, required: false, hint: 'Minecraft sprite slug (e.g. `emerald`). Only on section-hub `_index` pages.' }
+      # Server-hub cascade (nexus/_index.md), same shape as Survival's.
+      - label: 'Hub: cascade'
+        name: cascade
+        widget: object
+        required: false
+        collapsed: true
+        hint: 'SERVER HUB ONLY (`nexus/_index`). The `server` value cascades to every child page.'
+        fields:
+          - { label: Server, name: server, widget: string, required: false }
+      # Same union of infobox keys as Survival (see &infobox_fields there).
+      - label: Infobox
+        name: infobox
+        widget: object
+        required: false
+        collapsed: true
+        hint: 'The fact box in an article sidebar. Leave collapsed and empty if the page has none.'
+        fields: *infobox_fields
+      - { label: Draft, name: draft, widget: boolean, required: false, default: false }
+      - { label: Body, name: body, widget: markdown, required: false }
+
+  # ---- Workshop (blog) ---------------------------------------------------
+  - name: workshop
+    label: Workshop
+    label_singular: Post
+    folder: content/workshop
+    create: true
+    slug: '{{slug}}'
+    extension: md
+    format: yaml-frontmatter
+    fields:
+      - { label: Title, name: title, widget: string, hint: 'Post heading. Also becomes the filename.' }
+      - { label: Author, name: author, widget: string, required: false, hint: 'Who wrote the post.' }
+      - { label: Date, name: date, widget: datetime, required: false, date_format: 'yyyy-MM-dd', time_format: false, hint: 'Publish date. Sorts the blog.' }
+      - { label: Description, name: description, widget: text, required: false, hint: 'One or two sentences. Used on cards and in search.' }
+      - { label: Summary, name: summary, widget: text, required: false, hint: 'Short teaser shown in the post list. Falls back to Description if blank.' }
+      - { label: Tags, name: tags, widget: list, required: false, hint: 'Freeform keywords for search.' }
+      - { label: Draft, name: draft, widget: boolean, required: false, default: false, hint: 'On = hidden from the live site.' }
+      # Section-hub keys: content/workshop/_index.md shows up in this flat
+      # collection too, so declare its keys or editing it strips them.
+      - { label: 'Hub: weight', name: weight, widget: number, required: false, value_type: int, hint: 'WORKSHOP HUB (`_index`) ONLY. Leave blank for a normal post.' }
+      - { label: 'Hub: icon (sprite slug)', name: icon, widget: string, required: false, hint: 'Workshop hub only. Section icon sprite slug.' }
+      - label: 'Hub: cascade'
+        name: cascade
+        widget: object
+        required: false
+        collapsed: true
+        hint: 'Workshop hub only. Cascades `server` to every post.'
+        fields:
+          - { label: Server, name: server, widget: string, required: false }
+      - { label: Body, name: body, widget: markdown, hint: 'The post content, in Markdown.' }
+
+  # ---- Style guide -------------------------------------------------------
+  - name: style-guide
+    label: Style Guide
+    label_singular: Section
+    folder: content/style-guide
+    create: false
+    extension: md
+    format: yaml-frontmatter
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Type, name: type, widget: hidden, default: style-guide }
+      - { label: Weight, name: weight, widget: number, required: false, value_type: int }
+      - { label: Icon, name: icon, widget: string, required: false }
+      - { label: Description, name: description, widget: text, required: false }
+      - { label: Exclude from search, name: noSearch, widget: boolean, required: false }
+      - { label: Sections, name: sections, widget: list, required: false }
+      - { label: Body, name: body, widget: markdown, required: false }

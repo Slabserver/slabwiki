@@ -1,0 +1,16 @@
+name = "slab-cms-auth"
+main = "src/index.js"
+compatibility_date = "2024-11-01"
+
+# Public config (non-secret). Secrets are set with `wrangler secret put`.
+[vars]
+ALLOWED_ORIGIN = "https://slabwiki.gamingtwist.uk"
+GIT_PROVIDER = "github"
+
+# Secrets to set (values NOT stored here):
+#   wrangler secret put DISCORD_CLIENT_ID
+#   wrangler secret put DISCORD_CLIENT_SECRET
+#   wrangler secret put DISCORD_GUILD_ID
+#   wrangler secret put DISCORD_ALLOWED_ROLE_IDS   # comma-separated role IDs
+#   wrangler secret put GITHUB_TOKEN               # fine-grained PAT, contents+PR rw
+#   wrangler secret put STATE_SECRET               # long random string

@@ -1,0 +1,11 @@
+{
+  "name": "slab-cms-auth",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Discord-gated OAuth broker for Decap CMS on SlabWiki",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  }
+}

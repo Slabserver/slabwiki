@@ -90,16 +90,29 @@ npm run build   # npm run css && hugo --gc --minify
   `Shop_Item` cargo table, so they exist only in the wikitext) which drives the
   list-page search, item dropdown, card preview icons, and the single page's
   stock UI; and the prose body becomes the markdown body, rendered by
-  `layouts/shops/single.html` via `.Content`. Item `material` icon slugs are
+  `layouts/shops/single.html` via `.Content`. **These shop pages are not
+  editable via the Decap CMS** — the collection deliberately doesn't declare
+  owners/loc/items/seasonKey/seasonLabel, so a shop page shows in the CMS tree
+  but saving it there strips those keys. Edit S3 shops in the repo (or rerun the
+  script). Item `material` icon slugs are
   best-effort derived from item names (British spellings / "Item Set(...)" style
   entries may not match a sprite - harmless empty icon). They reuse the shared
   `layouts/shops/` templates, which are season-aware via the
   `seasonKey`/`seasonLabel` params cascaded from the section `_index.md`
   (defaulting to season-4 / currentSeason when unset). Photos + the 3 inline
   prose images live in `static/images/season-3-shops/`.
-- `static/images/farms/`, `arg-puzzles/`, `_superseded/`, and `screenshots/`
-  are currently unreferenced by any content/layout but are intentionally kept
-  for future use  do not delete them as "unused."
+- `static/images/_legacy/` holds unreferenced legacy assets consolidated out of
+  the top level (`farms/`, `arg-puzzles/`, `misc/`, `screenshots/`, `_superseded/`
+  - mostly MediaWiki-import dupes of files now in `articles/`, plus old
+  revisions and one-off/meme images). Nothing live references them; they are
+  kept for future use, not deleted. The live image folders are `articles/`,
+  `season-3-shops/`, `season-4/`, `season-4-shops/`, and `logo.png`.
+- **Adding a front-matter key? Declare it in `static/admin/config.yml` too.**
+  The Decap CMS at `/admin/` silently drops any key its collection doesn't
+  declare when an editor saves the page - each collection's `fields` must stay
+  the union of every front-matter shape in its folder (see the Gotchas in
+  `services/cms-auth/README.md`). The one intentional exception is shop pages,
+  whose owners/loc/items are left undeclared on purpose (shops are git-only).
 - `scripts/import_articles.py` is a one-shot MediaWiki importer from an
   earlier project iteration; it writes to a flat `content/articles/` layout
   that predates the current server/season/category structure. Don't run it

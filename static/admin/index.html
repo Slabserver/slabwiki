@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>SlabWiki · Content editor</title>
+
+  <!-- Same fonts as the live site (Silkscreen pixel + Nunito Sans body). -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800;6..12,900&display=swap" rel="stylesheet">
+
+  <!--
+    ADMIN TINT — deliberately minimal. Decap has NO supported theming API for
+    the editor UI (only `registerPreviewStyle`, which styles the preview pane —
+    and preview is off here), so anything more than this is a hack against Decap's
+    internal class names. We keep only the durable, low-risk bits:
+      • the site's two fonts,
+      • the site's LIGHT palette on the canvas (warm paper bg + ink text), which
+        matches Decap's own native light UI rather than fighting it, and
+      • grass where Decap uses its blue accent.
+    No hard corners / offset shadows / border or per-widget repaints, and no dark
+    theme — those produced a half-skinned clash. Single light theme by design.
+    Scoped under `#nc-root`; if a Decap version renames a component, at worst one
+    accent falls back to blue — nothing breaks.
+  -->
+  <style>
+    :root {
+      /* Site LIGHT palette (from assets/css/main.css). One theme, on purpose. */
+      --c-bg:#d9d4c7; --c-fg:#2a2620; --c-body:#3a352c; --c-grass:#5b8a3c; --c-on-grass:#eaf4dd;
+      --font-pixel:"Silkscreen",ui-monospace,"Cascadia Code",monospace;
+      --font-sans:"Nunito Sans",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    }
+
+    /* Warm canvas + body font. Big containers go transparent so the warm bg
+       shows through instead of Decap's flat near-white app background. */
+    html, body, #nc-root { background: var(--c-bg) !important; color: var(--c-body); font-family: var(--font-sans); }
+    #nc-root [class*="ToolbarContainer"],
+    #nc-root [class*="ControlPaneContainer"],
+    #nc-root [class*="EditorContainer"],
+    #nc-root [class*="CollectionMain"],
+    #nc-root [class*="CollectionTop"],
+    #nc-root [class*="CardsGrid"] { background: transparent !important; }
+
+    /* Site fonts: pixel on the chrome, sans on body/inputs. (Fonts only — no
+       shape changes; Decap keeps its own corners/borders/shadows.) */
+    #nc-root [class*="Toolbar"],
+    #nc-root [class*="FieldLabel"],
+    #nc-root button,
+    #nc-root h1, #nc-root h2 { font-family: var(--font-pixel); letter-spacing: .02em; }
+    #nc-root, #nc-root input, #nc-root textarea, #nc-root select { font-family: var(--font-sans); }
+
+    /* Accent: grass in place of Decap's blue on the primary action + links. */
+    #nc-root [class*="PublishButton"],
+    #nc-root button[class*="Primary"],
+    #nc-root [class*="ToolbarContainer"] [class*="Dropdown"] > button {
+      background: var(--c-grass) !important; color: var(--c-on-grass) !important;
+    }
+    #nc-root a { color: var(--c-grass); }
+    #nc-root [class*="StyledAuthenticationPage"] { background: var(--c-bg) !important; }
+    #nc-root [class*="StyledAuthenticationPage"] button { background: var(--c-grass) !important; color: var(--c-on-grass) !important; }
+    #nc-root [class*="StyledAuthenticationPage"] svg .no-fill { fill: var(--c-grass) !important; }
+    /* The login button ships a GitHub octocat icon; this is a Discord flow, so
+       hide it (the label is relabelled to "Login with Discord" by the script). */
+    #nc-root [class*="StyledAuthenticationPage"] button svg { display: none !important; }
+
+    /* "Signed in as <discord>" chip — Decap shows the shared bot's GitHub name,
+       so we surface the real Discord editor captured from the auth popup. */
+    #slab-editor-chip {
+      position: fixed; top: 8px; right: 10px; z-index: 9999;
+      font-family: var(--font-pixel); font-size: 11px; letter-spacing: .02em;
+      background: var(--c-grass); color: var(--c-on-grass);
+      padding: 4px 8px; border: 2px solid var(--c-fg); pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Decap CMS: served from a CDN, mounts the whole admin SPA here. -->
+  <script src="https://unpkg.com/decap-cms@^3.8.4/dist/decap-cms.js"></script>
+
+  <!--
+    Discord-flow niceties (no Decap theming API exists, so both are DOM-level):
+      1. Relabel Decap's default "Login with GitHub" button to "Login with
+         Discord" — the auth popup is our Discord role-gate, not GitHub.
+      2. Capture the Discord username the broker returns in the success postMessage
+         (alongside the token Decap consumes) and show a "Signed in as …" chip.
+  -->
+  <script>
+    (function () {
+      // 1. Relabel the login button. Decap re-renders, so observe the DOM and
+      //    rewrite any "Login with GitHub" text node whenever it appears.
+      function relabel(root) {
+        var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+        var n;
+        while ((n = walker.nextNode())) {
+          if (n.nodeValue && n.nodeValue.indexOf("Login with GitHub") !== -1) {
+            n.nodeValue = n.nodeValue.replace("Login with GitHub", "Login with Discord");
+          }
+        }
+      }
+      var mo = new MutationObserver(function () { relabel(document.body); });
+      mo.observe(document.body, { childList: true, subtree: true });
+      relabel(document.body);
+
+      // 2. Capture the Discord identity from the broker's success message. The
+      //    popup posts "authorization:github:success:{json}" to us (window.opener);
+      //    Decap reads .token, we read .discord_user. Persist so a page reload
+      //    inside the session keeps the chip.
+      function showChip(name) {
+        if (!name) return;
+        var el = document.getElementById("slab-editor-chip");
+        if (!el) {
+          el = document.createElement("div");
+          el.id = "slab-editor-chip";
+          document.body.appendChild(el);
+        }
+        el.textContent = "Signed in as " + name;
+      }
+      window.addEventListener("message", function (e) {
+        var d = e.data;
+        if (typeof d !== "string" || d.indexOf("authorization:") !== 0 || d.indexOf(":success:") === -1) return;
+        try {
+          var json = JSON.parse(d.slice(d.indexOf(":success:") + ":success:".length));
+          if (json && json.discord_user) {
+            try { localStorage.setItem("slabEditor", json.discord_user); } catch (_) {}
+            showChip(json.discord_user);
+          }
+        } catch (_) {}
+      }, false);
+      try { showChip(localStorage.getItem("slabEditor")); } catch (_) {}
+      // NOTE: attribution (commit author + PR body) is stamped SERVER-SIDE by
+      // the worker proxy now (config.yml `api_root`), so there's no preSave
+      // front-matter hack here — the chip is just a friendly local indicator.
+    })();
+  </script>
+</body>
+</html>
