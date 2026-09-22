@@ -3,118 +3,158 @@ title: Decked Out
 icon: ender-chest
 description: 'Decked Out: Slab Edition - a multiplayer dungeon-crawler inspired by TangoTek''s Hermitcraft creation.'
 infobox:
+  image: '/images/articles/decked-out.png'
   Type: 'minigame'
   Server: 'Nexus'
+  Designers: 'Master2Dex, Menscraft and others'
   Inspired by: 'TangoTek (Hermitcraft)'
   Status: 'Live'
   Plot: '/plot auto'
   Kit: '/kit board'
 ---
-**Decked Out: Slab Edition** is a dungeon-crawling game inspired by TangoTek's
-Hermitcraft creation. The Slab Edition solves the singleplayer waiting problem
-by letting several players run instances at once - but everything past the
-entrance is untouched: *"Everything after you enter the instance is vanilla and
-exactly how the game plays in survival mode."*
+**Decked Out: Slab Edition** is a dungeon-crawling, artifact-collecting game inspired by TangoTek's Decked Out on Hermitcraft. It was first built for the [Crossover event](https://slabserver.org/transparency/january-2024/#the-medium-stuff), where other communities played it, and now lives on the Nexus.
+
+In survival, Decked Out is effectively singleplayer: you have to wait for the current player to finish their run, then another 5 minutes for dropped items to despawn. The Slab Edition gives every run its own copy of the dungeon, so lots of people can play at once.
+
+> **Everything inside the dungeon is vanilla.** It plays exactly like the survival version. Command blocks only smooth over a few quirks so it works with the plugins.
 
 ## Getting started
 
-Claim a plot with `/plot auto` and grab your starter kit with `/kit board`.
-Your setup needs:
+1. Run `/plot auto` to claim a board, then `/kit board` for the items that go on it.
+2. Do the tutorial. **You must finish it before you can play.** Click the alley in the lobby, or run `/tutorial`.
 
-- A **3×3 item frame display** for up to 9 artifacts.
-- A **Shulker Deck** holding your reusable cards and the essential **Player
-  Certificate**.
-- An **empty inventory with no armor** when you start a run.
+Useful commands:
 
-> **Artifacts must live on your board.** You may not store artifacts anywhere
-> else - not a shulker, ender chest, or your inventory.
+- `/plot home` - go back to your board.
+- `/plot visit (playername)` - visit someone else's board.
+- `/spawn` - return to spawn.
 
-## How to play
+### Your board
 
-### Objective
+Your board has a 3×3 grid of item frames that holds up to **9 artifacts**.
 
-Collect artifact sets - Common, Uncommon and Rare variants across **18 themed
-sets** - and submit complete sets to the **Trade System** barrel to score points
-on the leaderboard.
+> **Artifacts must live on your board.** You may not store them anywhere else: not in a shulker, an ender chest or your inventory.
 
-### A run, step by step
+### Your Shulker Deck
 
-1. Place your dungeon key in the barrel and your Shulker Deck on the observer.
-2. Take the bed from the barrel and set your spawn on the hoppers.
-3. Enter the dungeon with your compass objective.
-4. Find the compass location and complete the run.
-5. Exit and claim your rewards: **one card and three artifacts**.
+Your Shulker Deck holds the cards that give you bonuses during a run. You earn more cards by completing runs. Before each run:
 
-## Game mechanics
+- Put up to three cards in the **first slots** of the shulker. Three copies of the same card stacked together count as all three.
+- Put your **Decked Out Player Certificate** anywhere after them. It must stay in the shulker, because the game won't work without it.
 
-### Artifacts & trading
+> **Empty your inventory before a run.** Carry no non-Decked Out items and wear no armor.
 
-- Your board holds a maximum of **9 artifacts**; extras must be stored elsewhere.
-- Trade **three artifacts of the same rarity** for one of the next tier up.
-- Submit a complete set (all three rarities) to the Trade System barrel for
-  leaderboard points.
-- You **cannot** complete a set using an extra artifact that isn't on your
-  board - the components have to be displayed.
+## Playing a run
 
-### Cards
+Click the vex in the lobby, or run `/deckedout`, to enter your own dungeon instance. Then:
 
-Cards activate in **deck order** - the first three fire before your Player
-Certificate.
+1. Place a dungeon key in the barrel.
+2. Place your Shulker Deck on the observer.
+3. Wait by the dungeon door. The game can take up to a minute to start.
+4. Go through the door, take a bed from the barrel, place it on the hoppers and set your spawn.
+5. Enter the dungeon. A compass appears in front of you: that's your objective.
+6. Explore, loot and follow the compass. When you think you've found the spot, drop the compass on the floor. If nothing happens, try the grooves of stairs or a different height. If it gets sucked up, you've succeeded. Now get out.
+7. Leave through the same door you came in. If you died, you respawn in a hallway you can just walk out of.
+8. Set your spawn in a bed outside the dungeon.
+9. If you succeeded, check the three barrels on your left and take a card of your choice. Punching more soul flames during the run gives you better cards to choose from.
+10. Your three artifacts are delivered to the barrel on your right.
 
-- **Loot Finder / Glutton** - increase chest contents. Mutually exclusive, max
-  combined **Level 6**.
-- **Soul Seeker** - reveals soul flames for better card rewards *(stacks)*.
-- **Stealth** - reduces clank generation.
-- **Beast Sense** - sense dungeon beasts through walls *(stacks)*.
-- **Resistance** - grants temporary Resistance II.
-- **Multi-Compass** - adds an extra compass (+1 artifact per completion).
-- **Co-Op** - enables two-player runs.
-- **Hardmode** - increased difficulty.
-
-Some effects stack (Soul Seeker, Beast Sense); non-stacking cards use only the
-highest level present.
-
-### Dungeon systems
-
-- **Clank** - noise from movement and the passage of time. High clank wakes the
-  dungeon's spirits and ramps difficulty; Stealth cards mitigate it.
-- **Soul Flames** - blue flames that give better card quality when punched.
-  Soul Seeker increases how often they appear.
-- **Loot Chests** - always mounted in walls; spawn loot or food based on your
-  equipped cards.
-- **Magic Crystals** - trade at Potion Stations (4 crystals = 1 potion) or with
-  the Ghost Merchant for special items.
-- **Traveler's Greed** - a one-use-per-run item granting extra compass
-  functionality.
+To leave the dungeon or the tutorial at any time, press the labelled exit button.
 
 ### Co-op
 
-- Invite a partner with `/party invite (playername)` - **two players max**.
-- Both enter through different coloured doors (red / blue), each with a compass,
-  and must complete both objectives.
-- *"Only one player needs to come back alive for the system to give the full
-  rewards."*
-- **Keep your assigned colour** for the whole session - swapping corrupts the
-  map.
+With a Co-Op card you can play with one other person.
 
-## Card tier list
+1. Invite them with `/party invite (playername)`. Use `/party leave` to leave a party.
+2. Both players click the vex. One goes through the red entrance and the other through the blue. Each sets their spawn in a bed as usual.
+3. You each get a compass, and **both compasses need to be delivered**.
+4. Only one player needs to make it back alive for the full rewards.
 
-**Tier 1** - Beast Sense I · Glutton I · Loot Finder I · Resistance I · Stealth
-I · Soul Seeker I · Co-Op I
+> **Stick to your colour.** Whoever takes red must use the red door to enter and exit for the whole co-op session, and the same goes for blue. Swapping breaks the map.
 
-**Tier 2** - Beast Sense II · Glutton II · Loot Finder II · Resistance II ·
-Stealth II · Soul Seeker II · Multi-Compass I · Hardmode I
+Rewards aren't split automatically. Flip a coin for the card and for any uneven artifacts or items, and share the rest of the loot.
 
-**Tier 3** - Beast Sense III · Glutton III · Loot Finder III · Resistance III ·
-Stealth III · Soul Seeker III · Hardmode II
+### Stuck?
 
-## Shops & NPCs
+- `/stuck` puts you back at the right bed, which also fixes co-op if someone went through the wrong door. **It kills you.**
+- `/leave` is the last resort if `/stuck` doesn't work. It **voids your box**, but staff can roll it back.
 
-- **Decked Out Shop** - buy dungeon supplies with Decked Out Coins (exact change
-  required).
-- **The Fortuneteller** - gives lore hints and holds the lost-compass dropoff
-  for compasses not delivered during a run.
+## Artifacts
 
-New to the game? A **tutorial is required before you can play** - click the vex
-at the end of spawn to start it. See [Staff help](staff-help/) if you get stuck
-and [Technical details](technical-details/) for how the instancing works.
+Artifacts come in three rarities (Common, Uncommon, Rare) and belong to one of **18 sets**, for example "Dragon Set - Common".
+
+Once your board is full, any new artifacts become extras. With extras you can:
+
+- **Throw them away.** A fire works fine.
+- **Trade up.** Put three artifacts of the same rarity into the barrel next to where you receive artifacts to get one of the next rarity. Board artifacts and extras both count. For example, two commons on your board plus one new common make an uncommon.
+
+What you **can't** do with extras:
+
+- Complete a set. All three artifacts of a set must be **on your board**. A Desert Common and Desert Uncommon on the board plus a Desert Rare extra doesn't count.
+- Trade with other players. Only board artifacts can be traded.
+
+> **Trade-ups and point claims only work inside a Decked Out instance,** not in the main lobby.
+
+## Scoring points
+
+To score, submit a full set (the Common, Uncommon and Rare of one set):
+
+1. Put the three artifacts in the barrel labelled **Trade System** and press the button.
+2. After about a minute, a point item appears in the barrel on the right.
+3. Right-click the point in mid-air to claim it. It's added to the leaderboard in the main hall. The old point boards are disabled.
+
+Anything else you put in the Trade System barrel, including mismatched artifacts, is sorted back into storage. That makes it a handy place to put excess artifacts when your board is full.
+
+## Cards
+
+The game reads the **first three cards** in your shulker, plus your Player Certificate. If only one or two cards come before the certificate, it still picks up the next card after it, and empty slots don't matter.
+
+> **Arrange your deck carefully.** Always check which cards are in the first three slots.
+
+| Card | Effect |
+|---|---|
+| **Loot Finder** | More loot in barrels. |
+| **Glutton** | More food in barrels. |
+| **Soul Seeker** | More soul flames appear. |
+| **Stealth** | A chance to cancel out clank. |
+| **Beast Sense** | Periodically see beasts through walls. Higher levels trigger more often. |
+| **Resistance** | Resistance II for a while when you enter the dungeon, once per run. Higher levels last longer. |
+| **Multi-Compass** | One extra compass. Each extra compass you deliver gives +1 artifact. |
+| **Co-Op** | Play with a second player. |
+| **Hardmode** | Harder runs. |
+
+**Loot Finder and Glutton are mutually exclusive.** A run gets either extra loot or extra food, never both. Their levels add up to a maximum of **6**, for example three Loot Finder II or two Glutton III. Any combination over 6 simply doesn't work.
+
+**Stacking.** Each card says whether it stacks. Stacking cards add up, including across levels, so Soul Seeker I and Soul Seeker III give you both. Non-stacking cards like Stealth only use the highest level, so extra copies are wasted.
+
+### Card tiers
+
+Use this when trading cards up a tier.
+
+| Tier 1 | Tier 2 | Tier 3 |
+|---|---|---|
+| Beast Sense I | Beast Sense II | Beast Sense III |
+| Glutton I | Glutton II | Glutton III |
+| Loot Finder I | Loot Finder II | Loot Finder III |
+| Resistance I | Resistance II | Resistance III |
+| Stealth I | Stealth II | Stealth III |
+| Soul Seeker I | Soul Seeker II | Soul Seeker III |
+| Co-Op I | Multi-Compass I | Hardmode II |
+| | Hardmode I | |
+
+## Inside the dungeon
+
+- **Loot barrels** hold loot and food. You keep the loot only if you escape. They're **always mounted in the walls**.
+- **Soul flames** are blue flames. Punch them out for better card rewards.
+- **Clank** builds up as you move around and slowly over time. Too much wakes the dungeon's spirits and makes the run harder.
+- **Magic Crystals** buy things you won't find in loot barrels:
+  - **Potion Stations** are marked by gold blocks and an item frame with a Bottle o' Enchanting on top. Exactly 4 crystals buys a random potion. Each station has its own pool of potions.
+  - **The Ghost Merchant** is somewhere in the map. Keep your eyes peeled. Word is ghosts have learned to write at the end of books.
+- **Traveler's Greed** comes from the Ghost Merchant or the Decked Out Shop. Deliver it to the statue on the second floor of the main hall for an extra compass, like a once-per-run Multi-Compass.
+
+## Outside the dungeon
+
+- **Decked Out Shop:** spend Decked Out Coins on items for your runs. Put the **exact** amount in the barrel, and the item drops from above.
+- **The Fortuneteller:** drops hints as you progress through the game's lore. If you ever leave the game without delivering your compass, you **must** hand it in at the Lost Compass drop-off, to the left of the Fortuneteller's hut.
+
+See [Staff help](staff-help/) for fixing broken runs and [Technical details](technical-details/) for how the server works.
