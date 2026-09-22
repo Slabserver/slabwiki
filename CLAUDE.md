@@ -97,9 +97,12 @@ npm run build   # npm run css && hugo --gc --minify
   `seasonKey`/`seasonLabel` params cascaded from the section `_index.md`
   (defaulting to season-4 / currentSeason when unset). Photos + the 3 inline
   prose images live in `static/images/season-3-shops/`.
-- `static/images/farms/`, `arg-puzzles/`, `_superseded/`, and `screenshots/`
-  are currently unreferenced by any content/layout but are intentionally kept
-  for future use  do not delete them as "unused."
+- `static/images/_legacy/` holds unreferenced legacy assets consolidated out of
+  the top level (`farms/`, `arg-puzzles/`, `misc/`, `screenshots/`, `_superseded/`
+  - mostly MediaWiki-import dupes of files now in `articles/`, plus old
+  revisions and one-off/meme images). Nothing live references them; they are
+  kept for future use, not deleted. The live image folders are `articles/`,
+  `season-3-shops/`, `season-4/`, `season-4-shops/`, and `logo.png`.
 - `scripts/import_articles.py` is a one-shot MediaWiki importer from an
   earlier project iteration; it writes to a flat `content/articles/` layout
   that predates the current server/season/category structure. Don't run it
