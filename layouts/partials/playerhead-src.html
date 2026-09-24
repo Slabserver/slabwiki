@@ -1,0 +1,9 @@
+{{- /* Returns a same-origin URL for a player's minotar helm render. Context = dict "name" "size".
+     Fetched at build time because wiki.slabserver.org's CSP blocks minotar.net images.
+     Falls back to the remote URL if the fetch fails so a minotar outage doesn't break the build. */ -}}
+{{- $url := printf "https://minotar.net/helm/%s/%d.png" .name (int .size) -}}
+{{- $src := $url -}}
+{{- with try (resources.GetRemote $url) -}}
+  {{- with .Value -}}{{- $src = (resources.Copy (printf "heads/%s-%d.png" $.name (int $.size)) .).RelPermalink -}}{{- end -}}
+{{- end -}}
+{{- return $src -}}

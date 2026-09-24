@@ -9,7 +9,7 @@
 <div class="flex flex-wrap items-center {{ cond $lg "gap-3" "gap-2" }}">
   {{- with $author -}}
   <span class="inline-flex items-center gap-2 whitespace-nowrap">
-    <img src="https://minotar.net/helm/{{ . }}/{{ $px }}.png"
+    <img src="{{ partial "playerhead-src.html" (dict "name" . "size" $px) }}"
          width="{{ $px }}" height="{{ $px }}"
          loading="lazy" alt="" class="pixelated shrink-0 border-2 border-line">
     <span class="{{ cond $lg "text-[15px]" "text-[13px]" }} font-bold {{ $nameCls }}">{{ . }}</span>
