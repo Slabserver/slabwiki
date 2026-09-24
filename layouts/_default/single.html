@@ -21,7 +21,7 @@
       {{/*  Article panel  */}}
       <article id="top" class="mc-panel min-w-0 px-6 py-6 sm:px-8 sm:pb-8">
         <div class="flex items-baseline gap-3 flex-wrap">
-          <h1 class="pixel text-[26px] md:text-[30px] leading-[1.15]">{{ .Title }}</h1>
+          <h1 class="pixel text-pixel-heading md:text-pixel-display leading-[1.15]">{{ .Title }}</h1>
           {{ with $season }}<span class="mc-badge mc-badge-gold">{{ .LinkTitle }}</span>{{ end }}
         </div>
         {{ with .Description }}<p class="text-sm text-muted italic mt-1.5">{{ . }}</p>{{ end }}
@@ -58,7 +58,7 @@
         <div class="mc-panel overflow-hidden">
           {{ partial "panel-header.html" "On This Page" }}
           <nav class="text-[13px] py-2.5 px-3.5 space-y-1.5">
-            <a href="#top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;" class="block text-wood-l hover:underline no-underline pb-1.5 mb-1.5 border-b-2 border-rowline">▲ Back to top</a>
+            <a href="#top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;" class="flex items-center gap-1.5 text-wood-l hover:underline no-underline pb-1.5 mb-1.5 border-b-2 border-rowline">{{ partial "mc-icon.html" "firework-rocket" }}Back to top</a>
             {{ range $headings }}
             <a href="#{{ .ID }}" class="block text-grass-hi hover:underline no-underline truncate">{{ .Title }}</a>
             {{ range .Headings }}
@@ -83,7 +83,7 @@
           {{ with .image }}
           <div class="relative border-b-4 border-line">
             <img src="{{ . | strings.TrimPrefix "/" | relURL }}" alt="{{ $.Title }}" class="w-full h-[150px] object-cover pixelated block">
-            <span class="pixel absolute bottom-2 left-2 text-[7px] uppercase text-white bg-[rgba(42,38,32,.7)] px-1.5 py-1">{{ $.Title }}</span>
+            <span class="pixel absolute bottom-2 left-2 text-pixel-label uppercase text-white bg-[rgba(42,38,32,.7)] px-1.5 py-1">{{ $.Title }}</span>
           </div>
           {{ end }}
           <dl class="text-[13.5px] py-1">
@@ -117,7 +117,7 @@
 
           {{ with $season }}
           <a href="{{ .RelPermalink }}" class="mc-panel-grass block border-t-4 text-center py-2.5 no-underline">
-            <span class="pixel-label text-[8px] text-white">▸ More from {{ .LinkTitle }}</span>
+            <span class="pixel-label text-pixel-label text-white inline-flex items-center gap-2">{{ partial "mc-icon.html" "chest" }}More from {{ .LinkTitle }}</span>
           </a>
           {{ end }}
         </div>

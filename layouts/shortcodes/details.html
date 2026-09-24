@@ -1,5 +1,5 @@
 <details class="mc-details">
-  <summary class="mc-details-summary">{{ .Get "summary" | default "Show more" }}</summary>
+  <summary class="mc-details-summary">{{ partial "mc-icon.html" "arrow" }}{{ .Get "summary" | default "Show more" }}</summary>
   <div class="mc-details-body">
     {{ .Inner }}
   </div>

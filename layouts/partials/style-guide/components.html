@@ -5,15 +5,15 @@
 
     {{ partial "style-guide/caption.html" (dict "name" ".mc-panel / .mc-panel-grass / .mc-frame" "note" "Heavy containers. mc-panel (4px border, 8px shadow) for articles/infoboxes; mc-panel-grass for the header band; mc-frame (12px shadow) is the outermost site wrapper.") }}
     <div class="grid sm:grid-cols-3 gap-4">
-      <div class="mc-panel p-4"><span class="pixel text-[12px]">mc-panel</span></div>
-      <div class="mc-panel-grass border-4 border-line p-4"><span class="pixel text-[12px] text-white">mc-panel-grass</span></div>
-      <div class="mc-frame p-4"><span class="pixel text-[12px]">mc-frame</span></div>
+      <div class="mc-panel p-4"><span class="pixel text-pixel-title">mc-panel</span></div>
+      <div class="mc-panel-grass border-4 border-line p-4"><span class="pixel text-pixel-title text-white">mc-panel-grass</span></div>
+      <div class="mc-frame p-4"><span class="pixel text-pixel-title">mc-frame</span></div>
     </div>
 
     {{ partial "style-guide/caption.html" (dict "name" ".mc-card + .mc-card-hover" "note" "Blocky card, hard offset shadow, steppy hover nudge. The reusable entry-card partial (right) builds article/shop cards from a page.") }}
     <div class="grid sm:grid-cols-2 gap-4 items-start">
       <div class="mc-card mc-card-hover p-5">
-        <div class="pixel text-[13px] uppercase mb-1">Card title</div>
+        <div class="pixel text-pixel-title uppercase mb-1">Card title</div>
         <p class="text-sm text-muted">Hover me - the whole card nudges up-left in two steps with a bigger shadow.</p>
       </div>
       {{ with site.GetPage "survival/season-4/spawn" }}
@@ -37,7 +37,7 @@
     </div>
 
     {{ partial "style-guide/caption.html" (dict "name" ".mc-input" "note" "Inset search / text field; grass border on focus.") }}
-    <label class="flex items-center gap-2 mc-input max-w-sm focus-within:border-grass">
+    <label class="flex items-center gap-2 mc-input max-w-sm focus-within:border-grass-hi">
       {{ partial "mc-icon.html" "spyglass" }}
       <input type="search" placeholder="Search…" class="w-full bg-transparent outline-none" aria-label="Demo search">
     </label>

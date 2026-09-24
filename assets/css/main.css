@@ -26,6 +26,7 @@
   --color-wood:      var(--c-wood);
   --color-wood-l:    var(--c-wood-l);
   --color-gold:      var(--c-gold);
+  --color-gold-hi:   var(--c-gold-hi);
   --color-divider:   var(--c-divider);
   --color-rowline:   var(--c-rowline);
   --color-ice:       var(--c-ice);
@@ -33,6 +34,11 @@
   --color-stone:     var(--c-stone);
 
   --font-pixel: "Silkscreen", ui-monospace, "Cascadia Code", monospace;
+  /* Silkscreen is drawn on an 8px grid, so only multiples of 8 render crisp at 1x. */
+  --text-pixel-label:   8px;
+  --text-pixel-title:   16px;
+  --text-pixel-heading: 24px;
+  --text-pixel-display: 32px;
   --font-sans:  "Nunito Sans", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
@@ -58,22 +64,23 @@
   --c-muted:     #c2b8a2;
   --c-faint:     #b8ad98;
   --c-line:      #0c0a07;
-  --c-grass:     #5b8a3c;
+  --c-grass:     #4b7131;
   --c-grass-hi:  #7cc24a;
   /* Text on the fixed grass panel - constant across themes, since grass is. */
   --c-on-grass:     #eaf4dd;
-  --c-on-grass-dim: #d3e6c2;
+  --c-on-grass-dim: #dcecce;
   --c-wood:      #8a5e35;
   --c-wood-l:    #c49a63;
   --c-ice:       #4f83b3;
   --c-mesa:      #b5651d;
   --c-stone:     #6e6e68;
   --c-gold:      #e0a92e;
+  --c-gold-hi:   #e0a92e;
   --c-shadow:    rgba(0, 0, 0, .6);
   --c-card-sh:   rgba(0, 0, 0, .5);
   --c-divider:   #3a342a;
   --c-rowline:   #3a342a;
-  --c-logo-text: #cfe0bc;
+  --c-logo-text: #dcecce;
 }
 
 :root[data-theme="light"] {
@@ -84,24 +91,25 @@
   --c-card:      #ffffff;
   --c-fg:        #2a2620;
   --c-body:      #3a352c;
-  --c-muted:     #8a8375;
+  --c-muted:     #5f584b;
   --c-faint:     #6b6455;
   --c-line:      #2a2620;
-  --c-grass:     #5b8a3c;
+  --c-grass:     #4b7131;
   --c-grass-hi:  #3f6d2a;
   --c-on-grass:     #eaf4dd;
-  --c-on-grass-dim: #d3e6c2;
+  --c-on-grass-dim: #dcecce;
   --c-wood:      #7a5230;
-  --c-wood-l:    #9c6b3f;
+  --c-wood-l:    #855a33;
   --c-ice:       #4f83b3;
   --c-mesa:      #b5651d;
   --c-stone:     #6e6e68;
   --c-gold:      #e0a92e;
+  --c-gold-hi:   #7f5c10;
   --c-shadow:    rgba(42, 38, 32, .35);
   --c-card-sh:   rgba(42, 38, 32, .22);
   --c-divider:   #d3ccbb;
   --c-rowline:   #eee6d6;
-  --c-logo-text: #dbe9cd;
+  --c-logo-text: #dcecce;
 }
 
 /* Follow the OS when the user hasn't chosen. */
@@ -114,24 +122,25 @@
     --c-card:      #ffffff;
     --c-fg:        #2a2620;
     --c-body:      #3a352c;
-    --c-muted:     #8a8375;
+    --c-muted:     #5f584b;
     --c-faint:     #6b6455;
     --c-line:      #2a2620;
-    --c-grass:     #5b8a3c;
+    --c-grass:     #4b7131;
     --c-grass-hi:  #3f6d2a;
     --c-on-grass:     #eaf4dd;
-    --c-on-grass-dim: #d3e6c2;
+    --c-on-grass-dim: #dcecce;
     --c-wood:      #7a5230;
-    --c-wood-l:    #9c6b3f;
+    --c-wood-l:    #855a33;
     --c-ice:       #4f83b3;
     --c-mesa:      #b5651d;
     --c-stone:     #6e6e68;
     --c-gold:      #e0a92e;
+    --c-gold-hi:   #7f5c10;
     --c-shadow:    rgba(42, 38, 32, .35);
     --c-card-sh:   rgba(42, 38, 32, .22);
     --c-divider:   #d3ccbb;
     --c-rowline:   #eee6d6;
-    --c-logo-text: #dbe9cd;
+    --c-logo-text: #dcecce;
   }
 }
 
@@ -371,7 +380,9 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
   }
-  ::selection { background: var(--color-grass); color: #10200a; }
+  ::selection { background: var(--color-grass); color: #fff; }
+  /* Keyboard focus ring; square to match the hard-cornered components. */
+  :focus-visible { outline: 2px solid var(--color-grass-hi); outline-offset: 2px; }
 }
 
 /*  Reusable component classes (Tailwind @apply)  */
@@ -440,8 +451,8 @@
   /* Micro-label: NAVIGATE / SERVER STATUS / COMMUNITY WIKI. */
   .pixel-label {
     font-family: var(--font-pixel);
-    font-size: 10px;
-    letter-spacing: .08em;
+    font-size: var(--text-pixel-label);
+    letter-spacing: .125em;
     text-transform: uppercase;
     line-height: 1;
   }
@@ -484,11 +495,10 @@
   /* Pixel badge chip: FEATURED / EDIT / NEW / season tags. */
   .mc-badge {
     @apply inline-flex items-center gap-1 border-2 border-line px-1.5 py-1
-           text-[8px] text-fg bg-surface-2 no-underline;
+           text-pixel-label text-fg bg-surface-2 no-underline;
     font-family: var(--font-pixel);
     line-height: 1;
     text-transform: uppercase;
-    letter-spacing: .03em;
   }
   .mc-badge-grass { @apply bg-grass text-white border-line; }
   .mc-badge-gold  { @apply bg-gold text-[#2a2620] border-line; }
@@ -496,11 +506,10 @@
   /* Chunky button: pix label, 3px border, hard shadow, nudges on hover. */
   .mc-btn {
     @apply inline-flex items-center gap-2 border-[3px] border-line px-3 py-2
-           bg-surface-2 text-fg text-[10px] no-underline select-none cursor-pointer;
+           bg-surface-2 text-fg text-pixel-label no-underline select-none cursor-pointer;
     font-family: var(--font-pixel);
     line-height: 1;
     text-transform: uppercase;
-    letter-spacing: .03em;
     box-shadow: 3px 3px 0 var(--c-card-sh);
     transition: filter .08s ease, transform .05s ease;
   }
@@ -516,7 +525,7 @@
            text-fg placeholder:text-muted outline-none;
     box-shadow: inset 2px 2px 0 rgb(0 0 0 / .12);
   }
-  .mc-input:focus { @apply border-grass; }
+  .mc-input:focus { @apply border-grass-hi; }
 
   /* Repeating grass stripe - accent bars (hero lip, header edge). */
   .stripe-grass {
@@ -532,7 +541,7 @@
 
   /* Section heading: pix, grass, underlined with soft divider. */
   .section-h {
-    @apply text-[17px] text-grass-hi border-b-[3px] border-divider pb-2;
+    @apply text-pixel-heading text-grass-hi border-b-[3px] border-divider pb-2;
     font-family: var(--font-pixel);
     line-height: 1.2;
   }
@@ -541,20 +550,20 @@
 
   /* Coordinate copy-chip. */
   .coord {
-    @apply inline-flex items-center gap-1 font-mono text-[0.78rem] px-2 py-0.5
+    @apply relative z-10 inline-flex items-center gap-1 font-mono text-[0.78rem] px-2 py-0.5
            border-2 border-line bg-surface-2 text-muted cursor-pointer
            select-none transition-colors;
   }
-  .coord:hover { @apply border-grass text-fg; }
-  .coord.copied { @apply border-grass text-grass-hi; }
-  .coord.copied::after { content: " ✓ copied"; }
+  .coord:hover { @apply border-grass-hi text-fg; }
+  .coord.copied { @apply border-grass-hi text-grass-hi; }
+  .coord.copied::after { content: " copied"; }
 
   /* Link from a coord chip to its spot on the season map. */
   .coord-map-link {
     @apply relative z-10 inline-flex items-center justify-center w-6 h-6 border-2 border-line
            bg-surface-2 text-muted no-underline transition-colors shrink-0;
   }
-  .coord-map-link:hover { @apply border-grass text-grass-hi; }
+  .coord-map-link:hover { @apply border-grass-hi text-grass-hi; }
 
   /* Leaflet map embed. */
   .slab-map {
@@ -589,12 +598,12 @@
     @apply inline-flex items-center gap-1 text-xs px-2 py-0.5
            border-2 border-line bg-surface-2 text-muted no-underline transition-colors;
   }
-  a.chip:hover { @apply border-grass text-fg; }
-  .chip-season { @apply text-gold; }
+  a.chip:hover { @apply border-grass-hi text-fg; }
+  .chip-season { @apply text-gold-hi; }
 
   /* Category filter buttons on the season portal (toggle the article grid). */
   .chip-filter { @apply cursor-pointer select-none; }
-  .chip-filter:hover { @apply border-grass text-fg; }
+  .chip-filter:hover { @apply border-grass-hi text-fg; }
   .chip-filter.is-on { @apply border-grass bg-grass text-white; }
 
   /* Prose (article body) - themed typographic defaults. */
@@ -605,16 +614,16 @@
     scroll-margin-top: calc(var(--sticky-h) + 10px);
   }
   .prose h1 {
-    @apply text-[21px] text-grass-hi border-b-[3px] border-divider pb-2 mt-8 mb-3;
+    @apply text-pixel-heading text-grass-hi border-b-[3px] border-divider pb-2 mt-8 mb-3;
     font-family: var(--font-pixel);
     line-height: 1.2;
   }
   .prose h2 {
-    @apply text-[17px] text-grass-hi border-b-[3px] border-divider pb-2 mt-8 mb-3;
+    @apply text-pixel-heading text-grass-hi border-b-[3px] border-divider pb-2 mt-8 mb-3;
     font-family: var(--font-pixel);
     line-height: 1.2;
   }
-  .prose h3 { @apply text-[14px] text-grass-hi mt-6 mb-2; font-family: var(--font-pixel); }
+  .prose h3 { @apply text-pixel-title text-grass-hi mt-6 mb-2; font-family: var(--font-pixel); }
   .prose p, .prose ul, .prose ol { @apply my-3; }
   .prose ul { @apply list-disc pl-6; }
   .prose ol { @apply list-decimal pl-6; }
@@ -652,12 +661,13 @@
     box-shadow: 4px 4px 0 var(--c-card-sh);
   }
   .mc-details-summary {
-    @apply font-pixel text-[13px] text-fg bg-surface-2 px-3 py-2 cursor-pointer select-none;
+    @apply font-pixel text-pixel-title text-fg bg-surface-2 px-3 py-2 cursor-pointer select-none;
     list-style: none;
   }
   .mc-details-summary::-webkit-details-marker { display: none; }
-  .mc-details-summary::before { content: '▸ '; }
-  .mc-details[open] .mc-details-summary::before { content: '▾ '; }
+  .mc-details-summary { @apply flex items-center gap-2; }
+  .mc-details-summary > .icon-minecraft-sm { transition: transform .1s steps(2); }
+  .mc-details[open] .mc-details-summary > .icon-minecraft-sm { transform: rotate(90deg); }
   .mc-details-body { @apply border-t-2 border-line p-3; }
   .mc-details-body pre { @apply my-0; }
 
@@ -690,7 +700,7 @@
     box-shadow: 2px 2px 0 var(--c-card-sh);
   }
   .compare-slider-tag {
-    @apply absolute top-2 font-pixel text-[11px] text-on-grass bg-grass px-2 py-1 pointer-events-none;
+    @apply absolute top-2 font-pixel text-pixel-label text-on-grass bg-grass px-2 py-1 pointer-events-none;
   }
   .compare-slider-tag-before { @apply left-2; }
   .compare-slider-tag-after { @apply right-2; }
@@ -830,14 +840,14 @@
   .mc-note-warn   { border-left-color: var(--c-gold); }
   .mc-note-danger { border-left-color: var(--c-mesa); }
   .mc-note-title {
-    @apply text-[10px] uppercase mb-1 text-fg;
+    @apply text-pixel-label uppercase mb-1 text-fg;
     font-family: var(--font-pixel);
-    letter-spacing: .08em;
+    letter-spacing: .125em;
     line-height: 1;
   }
   .mc-note-info   .mc-note-title { @apply text-ice; }
   .mc-note-tip    .mc-note-title { @apply text-grass-hi; }
-  .mc-note-warn   .mc-note-title { @apply text-gold; }
+  .mc-note-warn   .mc-note-title { @apply text-gold-hi; }
   .mc-note-danger .mc-note-title { @apply text-mesa; }
   .mc-note-body { @apply text-sm text-body; }
   .mc-note-body :is(p):first-child { @apply mt-0; }
@@ -850,9 +860,8 @@
   }
   .mc-details > summary {
     @apply flex items-center gap-2 cursor-pointer select-none px-3.5 py-2.5
-           bg-surface-2 text-fg text-[11px] uppercase;
+           bg-surface-2 text-fg text-pixel-label uppercase;
     font-family: var(--font-pixel);
-    letter-spacing: .03em;
     line-height: 1;
   }
   .mc-details > summary::-webkit-details-marker { display: none; }
@@ -869,9 +878,8 @@
   .mc-table { @apply w-full border-collapse text-sm; }
   .mc-table th, .mc-table td { @apply border-2 border-rowline px-3 py-2 text-left; }
   .mc-table th {
-    @apply bg-surface-2 text-fg text-[11px] uppercase;
+    @apply bg-surface-2 text-fg text-pixel-label uppercase;
     font-family: var(--font-pixel);
-    letter-spacing: .03em;
   }
   .mc-table tbody tr:nth-child(even) td { @apply bg-surface-2; }
   .mc-table tbody tr:hover td { @apply bg-grass/10; }
@@ -903,11 +911,10 @@
     @apply bg-card border-[3px] border-line px-4 py-3 text-center;
     box-shadow: 4px 4px 0 var(--c-card-sh);
   }
-  .mc-stat-num { @apply block text-grass-hi text-[22px]; font-family: var(--font-pixel); line-height: 1; }
+  .mc-stat-num { @apply block text-grass-hi text-pixel-heading; font-family: var(--font-pixel); line-height: 1; }
   .mc-stat-label {
-    @apply block mt-2 text-[9px] uppercase text-muted;
+    @apply block mt-2 text-pixel-label uppercase text-muted;
     font-family: var(--font-pixel);
-    letter-spacing: .06em;
   }
 
   /* --- Timeline / changelog rail ------------------------------------- */
@@ -920,9 +927,8 @@
     @apply absolute left-[-21px] top-1 w-3 h-3 bg-grass border-2 border-line;
   }
   .mc-timeline-when {
-    @apply block text-[9px] uppercase text-muted mb-0.5;
+    @apply block text-pixel-label uppercase text-muted mb-0.5;
     font-family: var(--font-pixel);
-    letter-spacing: .05em;
   }
 
   /* --- Player-head overflow chip (+N) with hover roster ------------- */
@@ -962,7 +968,7 @@
            bg-surface-2 border-[3px] border-dashed border-line px-6 py-10;
   }
   .mc-empty .icon-minecraft, .mc-empty .icon-minecraft-sm { opacity: .5; }
-  .mc-empty-title { @apply text-[13px] text-muted uppercase; font-family: var(--font-pixel); }
+  .mc-empty-title { @apply text-pixel-title text-muted uppercase; font-family: var(--font-pixel); }
 
   /* --- Skeleton / loading block -------------------------------------- */
   .mc-skeleton {
@@ -1001,7 +1007,7 @@
   .mc-steps > li::before {
     content: counter(mc-step);
     @apply absolute left-0 top-0 z-10 w-8 h-8 inline-flex items-center justify-center
-           bg-grass text-white border-2 border-line text-[13px];
+           bg-grass text-white border-2 border-line text-pixel-title;
     font-family: var(--font-pixel);
     box-shadow: 2px 2px 0 var(--c-card-sh);
   }
@@ -1009,9 +1015,8 @@
 
   /* --- Breadcrumbs --------------------------------------------------- */
   .mc-crumbs {
-    @apply flex flex-wrap items-center gap-1.5 text-[10px] uppercase;
+    @apply flex flex-wrap items-center gap-1.5 text-pixel-label uppercase;
     font-family: var(--font-pixel);
-    letter-spacing: .04em;
   }
   .mc-crumbs a { @apply text-muted no-underline; }
   .mc-crumbs a:hover { @apply text-grass-hi; }
@@ -1031,9 +1036,8 @@
     box-shadow: 7px 7px 0 var(--c-card-sh);
   }
   .mc-prevnext .dir {
-    @apply text-[9px] uppercase text-muted;
+    @apply text-pixel-label uppercase text-muted;
     font-family: var(--font-pixel);
-    letter-spacing: .06em;
   }
   .mc-prevnext .ttl { @apply text-body text-sm; }
   .mc-prevnext .next { @apply sm:text-right sm:items-end; }

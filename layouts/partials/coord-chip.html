@@ -2,12 +2,12 @@
 {{- $coord := .coord -}}
 {{- $season := .season -}}
 <span class="inline-flex items-center gap-1.5">
-  <span class="coord" data-coord="{{ $coord }}">{{ partial "mc-icon.html" "compass" }}{{ $coord }}</span>
+  <button type="button" class="coord" data-coord="{{ $coord }}" title="Copy coordinates">{{ partial "mc-icon.html" "compass" }}{{ $coord }}</button>
   {{- if $season -}}
     {{- $xz := partial "coord-xz.html" $coord -}}
     {{- with $xz.x -}}
     {{- $mapPage := site.GetPage (printf "/survival/%s/map" $season) -}}
-    <a class="coord-map-link" href="{{ printf "%s?x=%v&z=%v" $mapPage.RelPermalink $xz.x $xz.z }}" title="View on map">🗺</a>
+    <a class="coord-map-link" href="{{ printf "%s?x=%v&z=%v" $mapPage.RelPermalink $xz.x $xz.z }}" title="View on map" aria-label="View {{ $coord }} on the map">{{ partial "mc-icon.html" "filled-map" }}</a>
     {{- end -}}
   {{- end -}}
 </span>

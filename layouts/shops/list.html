@@ -29,7 +29,7 @@
 
   {{ if and $mapCfg $markers }}
   <div class="mc-panel mb-6 overflow-hidden">
-    <button type="button" id="shop-map-toggle" class="pixel bg-wood text-white text-[12px] px-2.5 py-3 border-b-4 border-line uppercase w-full text-left [text-shadow:2px_2px_0_rgb(0_0_0/0.3)]">▸ Show shops on map</button>
+    <button type="button" id="shop-map-toggle" class="pixel bg-wood text-white text-pixel-title px-2.5 py-3 border-b-4 border-line uppercase w-full text-left flex items-center gap-2 [text-shadow:2px_2px_0_rgb(0_0_0/0.3)]">{{ partial "mc-icon.html" "filled-map" }}<span id="shop-map-toggle-label">Show shops on map</span></button>
     <div id="shop-map-wrap" class="hidden p-3">
       {{ partial "slab-map.html" (dict "cfg" $mapCfg "markers" $markers "id" "shops-map" "height" "420px" "autofit" true) }}
     </div>
@@ -38,7 +38,7 @@
 
   <div class="flex flex-wrap items-center gap-3 mb-5">
     <div class="relative flex-1 min-w-[220px]">
-      <label class="flex items-center gap-2 mc-input !w-auto focus-within:border-grass">
+      <label class="flex items-center gap-2 mc-input !w-auto focus-within:border-grass-hi">
         {{ partial "mc-icon.html" "chest" }}
         <input id="shop-search" type="search" placeholder="Search shops, owners, items, coords…" autocomplete="off"
                class="w-full bg-transparent outline-none text-sm text-fg placeholder:text-muted">
@@ -75,11 +75,11 @@
       {{ else }}
       <div class="aspect-[16/10] overflow-hidden bg-surface-2 border-b-[3px] border-line flex items-center justify-center gap-1.5 text-muted">
         {{ partial "mc-icon.html" "painting" }}
-        <span class="pixel-label text-[8px]">Image coming soon</span>
+        <span class="pixel-label text-pixel-label">Image coming soon</span>
       </div>
       {{ end }}
       <div class="p-3.5 flex flex-col gap-2 flex-1">
-        <h3 class="pixel text-[12px] uppercase text-fg leading-snug">{{ .Title }}</h3>
+        <h3 class="pixel text-pixel-title uppercase text-fg leading-snug">{{ .Title }}</h3>
         {{ with .Params.summary }}<p class="text-sm text-muted line-clamp-2">{{ . }}</p>{{ end }}
         {{ with $previewItems }}
         <div class="flex flex-wrap items-center gap-1 text-muted">
@@ -150,7 +150,7 @@
   if (!btn || !wrap) return;
   btn.addEventListener('click', function () {
     var open = wrap.classList.toggle('hidden') === false;
-    btn.textContent = (open ? '▾ Hide' : '▸ Show') + ' shops on map';
+    document.getElementById('shop-map-toggle-label').textContent = (open ? 'Hide' : 'Show') + ' shops on map';
   });
 })();
 </script>

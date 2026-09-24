@@ -1,0 +1,634 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-24T18:35:37.757922+00:00",
+  "title": "Design System: SlabWiki",
+  "extensions": {
+    "colorMeta": {
+      "grass": {
+        "role": "primary",
+        "displayName": "Grass Block Green",
+        "canonical": "#4b7131",
+        "tonalRamp": [
+          "#233517",
+          "#3e5e29",
+          "#59873b",
+          "#74af4c",
+          "#93c273",
+          "#b2d49c",
+          "#d2e6c5",
+          "#f1f7ed"
+        ]
+      },
+      "grass-hi": {
+        "role": "primary",
+        "displayName": "Sunlit Grass",
+        "canonical": "#7cc24a",
+        "tonalRamp": [
+          "#233913",
+          "#3e6522",
+          "#599031",
+          "#73bc3f",
+          "#93cc69",
+          "#b2db95",
+          "#d2eac0",
+          "#f1f9ec"
+        ]
+      },
+      "grass-hi-light": {
+        "role": "primary",
+        "displayName": "Sunlit Grass (light)",
+        "canonical": "#3f6d2a",
+        "tonalRamp": [
+          "#203715",
+          "#386125",
+          "#518b36",
+          "#69b546",
+          "#8ac76e",
+          "#acd798",
+          "#cee8c3",
+          "#f0f8ed"
+        ]
+      },
+      "on-grass": {
+        "role": "primary",
+        "displayName": "On Grass",
+        "canonical": "#eaf4dd",
+        "tonalRamp": [
+          "#293a13",
+          "#486621",
+          "#67922f",
+          "#86be3d",
+          "#a1ce68",
+          "#bddc94",
+          "#d8ebc0",
+          "#f3f9ec"
+        ]
+      },
+      "gold": {
+        "role": "secondary",
+        "displayName": "Gold Ingot",
+        "canonical": "#e0a92e",
+        "tonalRamp": [
+          "#43310a",
+          "#755611",
+          "#a87c19",
+          "#dba120",
+          "#e5b751",
+          "#edcc83",
+          "#f4e1b6",
+          "#fcf6e9"
+        ]
+      },
+      "wood": {
+        "role": "tertiary",
+        "displayName": "Oak Plank",
+        "canonical": "#8a5e35",
+        "tonalRamp": [
+          "#372615",
+          "#614225",
+          "#8b5f36",
+          "#b67c46",
+          "#c7996e",
+          "#d8b798",
+          "#e8d4c2",
+          "#f8f2ed"
+        ]
+      },
+      "wood-l": {
+        "role": "tertiary",
+        "displayName": "Stripped Oak",
+        "canonical": "#c49a63",
+        "tonalRamp": [
+          "#382915",
+          "#624725",
+          "#8c6635",
+          "#b68545",
+          "#c8a16e",
+          "#d8bc98",
+          "#e8d8c2",
+          "#f8f3ec"
+        ]
+      },
+      "ice": {
+        "role": "tertiary",
+        "displayName": "Packed Ice",
+        "canonical": "#4f83b3",
+        "tonalRamp": [
+          "#172735",
+          "#29445e",
+          "#3a6287",
+          "#4c80b0",
+          "#739cc3",
+          "#9cb9d4",
+          "#c4d6e6",
+          "#edf2f7"
+        ]
+      },
+      "mesa": {
+        "role": "tertiary",
+        "displayName": "Terracotta Mesa",
+        "canonical": "#b5651d",
+        "tonalRamp": [
+          "#42250b",
+          "#744113",
+          "#a65d1b",
+          "#d97923",
+          "#e39752",
+          "#ebb585",
+          "#f3d4b7",
+          "#fbf2e9"
+        ]
+      },
+      "stone": {
+        "role": "tertiary",
+        "displayName": "Cobblestone",
+        "canonical": "#6e6e68",
+        "tonalRamp": [
+          "#272725",
+          "#454542",
+          "#63635e",
+          "#81817a",
+          "#9e9e98",
+          "#babab6",
+          "#d6d6d4",
+          "#f3f3f2"
+        ]
+      },
+      "bg": {
+        "role": "neutral",
+        "displayName": "Night Soil",
+        "canonical": "#16130e",
+        "tonalRamp": [
+          "#2f281e",
+          "#524734",
+          "#76664b",
+          "#9a8562",
+          "#b1a085",
+          "#c8bca8",
+          "#ded7cc",
+          "#f5f3ef"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Coarse Dirt",
+        "canonical": "#24201a",
+        "tonalRamp": [
+          "#2c2720",
+          "#4e4639",
+          "#706451",
+          "#928269",
+          "#ab9e8b",
+          "#c3baad",
+          "#dcd6ce",
+          "#f4f3f0"
+        ]
+      },
+      "surface-2": {
+        "role": "neutral",
+        "displayName": "Deep Dirt",
+        "canonical": "#1c1913",
+        "tonalRamp": [
+          "#2e291f",
+          "#504836",
+          "#73674e",
+          "#968666",
+          "#aea188",
+          "#c6bcaa",
+          "#ddd8cd",
+          "#f5f3f0"
+        ]
+      },
+      "card": {
+        "role": "neutral",
+        "displayName": "Podzol",
+        "canonical": "#2f2a22",
+        "tonalRamp": [
+          "#2c2820",
+          "#4e4639",
+          "#706451",
+          "#92826a",
+          "#ab9f8b",
+          "#c3bbad",
+          "#dcd7ce",
+          "#f4f3f0"
+        ]
+      },
+      "fg": {
+        "role": "neutral",
+        "displayName": "Bone White",
+        "canonical": "#f0ebe0",
+        "tonalRamp": [
+          "#342b19",
+          "#5b4c2c",
+          "#826d3f",
+          "#a98e52",
+          "#bea878",
+          "#d1c19f",
+          "#e4dbc7",
+          "#f7f4ee"
+        ]
+      },
+      "body": {
+        "role": "neutral",
+        "displayName": "Sandstone",
+        "canonical": "#d8cfba",
+        "tonalRamp": [
+          "#312b1c",
+          "#564b31",
+          "#7b6b46",
+          "#a18c5b",
+          "#b7a67f",
+          "#ccc0a4",
+          "#e1dac9",
+          "#f6f4ef"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "canonical": "#c2b8a2",
+        "tonalRamp": [
+          "#2e291e",
+          "#514935",
+          "#75684c",
+          "#988764",
+          "#b0a386",
+          "#c7bda9",
+          "#ded8cc",
+          "#f5f3f0"
+        ]
+      },
+      "faint": {
+        "role": "neutral",
+        "displayName": "Faint",
+        "canonical": "#b8ad98",
+        "tonalRamp": [
+          "#2d281f",
+          "#504737",
+          "#72664f",
+          "#958567",
+          "#ada188",
+          "#c5bcab",
+          "#ddd8cd",
+          "#f5f3f0"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Blackstone Outline",
+        "canonical": "#0c0a07",
+        "tonalRamp": [
+          "#30281c",
+          "#554732",
+          "#7a6647",
+          "#9f845d",
+          "#b5a080",
+          "#cbbca5",
+          "#e0d7ca",
+          "#f6f3ef"
+        ]
+      },
+      "divider": {
+        "role": "neutral",
+        "displayName": "Divider",
+        "canonical": "#3a342a",
+        "tonalRamp": [
+          "#2c2820",
+          "#4e4639",
+          "#706451",
+          "#92836a",
+          "#ab9f8b",
+          "#c3bbad",
+          "#dcd7ce",
+          "#f4f3f0"
+        ]
+      },
+      "bg-light": {
+        "role": "neutral",
+        "displayName": "Night Soil (light)",
+        "canonical": "#d9d4c7",
+        "tonalRamp": [
+          "#2e2a1f",
+          "#504936",
+          "#73694e",
+          "#968866",
+          "#aea388",
+          "#c6beaa",
+          "#ddd9cd",
+          "#f5f3f0"
+        ]
+      },
+      "surface-light": {
+        "role": "neutral",
+        "displayName": "Coarse Dirt (light)",
+        "canonical": "#f5f3ee",
+        "tonalRamp": [
+          "#302a1c",
+          "#554b32",
+          "#7a6b48",
+          "#9e8c5d",
+          "#b5a681",
+          "#cac0a6",
+          "#e0daca",
+          "#f6f4ef"
+        ]
+      },
+      "surface-2-light": {
+        "role": "neutral",
+        "displayName": "Deep Dirt (light)",
+        "canonical": "#ece7db",
+        "tonalRamp": [
+          "#322b1a",
+          "#584c2f",
+          "#7e6d43",
+          "#a58e57",
+          "#baa87c",
+          "#cec1a2",
+          "#e2dac8",
+          "#f6f4ee"
+        ]
+      },
+      "card-light": {
+        "role": "neutral",
+        "displayName": "Podzol (light)",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#262626",
+          "#434343",
+          "#616161",
+          "#7e7e7e",
+          "#9b9b9b",
+          "#b8b8b8",
+          "#d5d5d5",
+          "#f2f2f2"
+        ]
+      },
+      "fg-light": {
+        "role": "neutral",
+        "displayName": "Bone White (light)",
+        "canonical": "#2a2620",
+        "tonalRamp": [
+          "#2b2721",
+          "#4c453a",
+          "#6e6353",
+          "#8f816d",
+          "#a89e8d",
+          "#c2baae",
+          "#dbd6cf",
+          "#f4f3f1"
+        ]
+      },
+      "body-light": {
+        "role": "neutral",
+        "displayName": "Sandstone (light)",
+        "canonical": "#3a352c",
+        "tonalRamp": [
+          "#2b2821",
+          "#4d463a",
+          "#6e6453",
+          "#8f836c",
+          "#a99f8d",
+          "#c2bbae",
+          "#dbd7cf",
+          "#f4f3f0"
+        ]
+      },
+      "line-light": {
+        "role": "neutral",
+        "displayName": "Blackstone Outline (light)",
+        "canonical": "#2a2620",
+        "tonalRamp": [
+          "#2b2721",
+          "#4c453a",
+          "#6e6353",
+          "#8f816d",
+          "#a89e8d",
+          "#c2baae",
+          "#dbd6cf",
+          "#f4f3f1"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Page titles, 26–30px."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section headings and prose h2 in Sunlit Grass; prose h1 is 21px."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Prose h3 and sub-headings."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Article prose in Sandstone."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Micro-labels, buttons, breadcrumbs, badges (8–10px)."
+      }
+    },
+    "shadows": [
+      {
+        "name": "button",
+        "value": "3px 3px 0 var(--c-card-sh)",
+        "purpose": "Buttons; 1px on :active."
+      },
+      {
+        "name": "card",
+        "value": "4px 4px 0 var(--c-card-sh)",
+        "purpose": "Cards, figures, notes; 7px on hover."
+      },
+      {
+        "name": "dropdown",
+        "value": "6px 6px 0 var(--c-shadow)",
+        "purpose": "Search results popover."
+      },
+      {
+        "name": "panel",
+        "value": "8px 8px 0 var(--c-shadow)",
+        "purpose": "Heroes, infoboxes, sidebar nav."
+      },
+      {
+        "name": "sheet",
+        "value": "10px 10px 0 var(--c-shadow)",
+        "purpose": "Main content column."
+      },
+      {
+        "name": "frame",
+        "value": "12px 12px 0 var(--c-shadow)",
+        "purpose": "Outermost site frame."
+      },
+      {
+        "name": "inset",
+        "value": "inset 2px 2px 0 rgb(0 0 0 / .12)",
+        "purpose": "Sunk inputs and progress troughs."
+      }
+    ],
+    "motion": [
+      {
+        "name": "snap",
+        "value": "steps(2) 80ms",
+        "purpose": "Card lift and caret turns."
+      },
+      {
+        "name": "press",
+        "value": "ease 50ms",
+        "purpose": "Button press-down translate."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Button",
+      "kind": "button",
+      "refersTo": "button",
+      "description": "Default chunky pixel button.",
+      "html": "<button class=\"ds-btn\">Explore</button>",
+      "css": ":host{--c-surface:#24201a;--c-surface-2:#1c1913;--c-card:#2f2a22;--c-fg:#f0ebe0;--c-body:#d8cfba;--c-muted:#c2b8a2;--c-line:#0c0a07;--c-grass:#4b7131;--c-grass-hi:#7cc24a;--c-gold:#e0a92e;--c-wood:#8a5e35;--c-card-sh:rgba(0,0,0,.5);--c-shadow:rgba(0,0,0,.6)}.ds-btn{font-family:'Silkscreen',ui-monospace,monospace;display:inline-flex;align-items:center;gap:8px;border:3px solid var(--c-line);padding:8px 12px;background:var(--c-surface-2);color:var(--c-fg);font-size:10px;line-height:1;text-transform:uppercase;letter-spacing:.03em;box-shadow:3px 3px 0 var(--c-card-sh);cursor:pointer;transition:filter .08s ease,transform .05s ease}.ds-btn:hover{filter:brightness(1.08)}.ds-btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--c-card-sh)}.ds-btn:focus-visible{outline:3px solid var(--c-grass-hi);outline-offset:2px}"
+    },
+    {
+      "name": "Grass Button",
+      "kind": "button",
+      "refersTo": "button-grass",
+      "description": "Active world / primary action.",
+      "html": "<button class=\"ds-btn ds-btn-grass\">Survival</button>",
+      "css": ":host{--c-surface:#24201a;--c-surface-2:#1c1913;--c-card:#2f2a22;--c-fg:#f0ebe0;--c-body:#d8cfba;--c-muted:#c2b8a2;--c-line:#0c0a07;--c-grass:#4b7131;--c-grass-hi:#7cc24a;--c-gold:#e0a92e;--c-wood:#8a5e35;--c-card-sh:rgba(0,0,0,.5);--c-shadow:rgba(0,0,0,.6)}.ds-btn{font-family:'Silkscreen',ui-monospace,monospace;display:inline-flex;align-items:center;gap:8px;border:3px solid var(--c-line);padding:8px 12px;background:var(--c-surface-2);color:var(--c-fg);font-size:10px;line-height:1;text-transform:uppercase;letter-spacing:.03em;box-shadow:3px 3px 0 var(--c-card-sh);cursor:pointer;transition:filter .08s ease,transform .05s ease}.ds-btn:hover{filter:brightness(1.08)}.ds-btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--c-card-sh)}.ds-btn:focus-visible{outline:3px solid var(--c-grass-hi);outline-offset:2px}.ds-btn-grass{background:var(--c-grass);color:#fff}"
+    },
+    {
+      "name": "Gold Button",
+      "kind": "button",
+      "refersTo": "button-gold",
+      "description": "Featured / season action.",
+      "html": "<button class=\"ds-btn ds-btn-gold\">Season 4</button>",
+      "css": ":host{--c-surface:#24201a;--c-surface-2:#1c1913;--c-card:#2f2a22;--c-fg:#f0ebe0;--c-body:#d8cfba;--c-muted:#c2b8a2;--c-line:#0c0a07;--c-grass:#4b7131;--c-grass-hi:#7cc24a;--c-gold:#e0a92e;--c-wood:#8a5e35;--c-card-sh:rgba(0,0,0,.5);--c-shadow:rgba(0,0,0,.6)}.ds-btn{font-family:'Silkscreen',ui-monospace,monospace;display:inline-flex;align-items:center;gap:8px;border:3px solid var(--c-line);padding:8px 12px;background:var(--c-surface-2);color:var(--c-fg);font-size:10px;line-height:1;text-transform:uppercase;letter-spacing:.03em;box-shadow:3px 3px 0 var(--c-card-sh);cursor:pointer;transition:filter .08s ease,transform .05s ease}.ds-btn:hover{filter:brightness(1.08)}.ds-btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--c-card-sh)}.ds-btn:focus-visible{outline:3px solid var(--c-grass-hi);outline-offset:2px}.ds-btn-gold{background:var(--c-gold);color:#2a2620}"
+    },
+    {
+      "name": "Search Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Sunk search field; grass border on focus.",
+      "html": "<input class=\"ds-input\" type=\"search\" placeholder=\"Search the wiki…\">",
+      "css": ":host{--c-surface:#24201a;--c-surface-2:#1c1913;--c-card:#2f2a22;--c-fg:#f0ebe0;--c-body:#d8cfba;--c-muted:#c2b8a2;--c-line:#0c0a07;--c-grass:#4b7131;--c-grass-hi:#7cc24a;--c-gold:#e0a92e;--c-wood:#8a5e35;--c-card-sh:rgba(0,0,0,.5);--c-shadow:rgba(0,0,0,.6)}.ds-input{width:100%;font-size:15px;padding:8px 12px;background:var(--c-surface);border:3px solid var(--c-line);color:var(--c-fg);outline:none;box-shadow:inset 2px 2px 0 rgb(0 0 0/.12);font-family:'Nunito Sans',system-ui,sans-serif}.ds-input::placeholder{color:var(--c-muted)}.ds-input:focus{border-color:var(--c-grass-hi)}"
+    },
+    {
+      "name": "Entry Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Clickable content card; lifts on hover with stepped motion.",
+      "html": "<a class=\"ds-card\" href=\"#\"><span class=\"ds-card-t\">Spawn</span><span class=\"ds-card-d\">The Season 4 spawn build.</span></a>",
+      "css": ":host{--c-surface:#24201a;--c-surface-2:#1c1913;--c-card:#2f2a22;--c-fg:#f0ebe0;--c-body:#d8cfba;--c-muted:#c2b8a2;--c-line:#0c0a07;--c-grass:#4b7131;--c-grass-hi:#7cc24a;--c-gold:#e0a92e;--c-wood:#8a5e35;--c-card-sh:rgba(0,0,0,.5);--c-shadow:rgba(0,0,0,.6)}.ds-card{display:flex;flex-direction:column;gap:4px;padding:14px;background:var(--c-card);border:3px solid var(--c-line);box-shadow:4px 4px 0 var(--c-card-sh);text-decoration:none;transition:transform .08s steps(2),box-shadow .08s steps(2),border-color .1s}.ds-card:hover,.ds-card:focus-visible{transform:translate(-3px,-3px);border-color:var(--c-grass);box-shadow:7px 7px 0 var(--c-card-sh);outline:none}.ds-card-t{font-family:'Silkscreen',ui-monospace,monospace;font-size:14px;color:var(--c-fg)}.ds-card-d{font-family:'Nunito Sans',system-ui,sans-serif;font-size:14px;color:var(--c-body)}"
+    },
+    {
+      "name": "Badge",
+      "kind": "chip",
+      "refersTo": "badge-gold",
+      "description": "Pixel status badge; gold marks featured.",
+      "html": "<span class=\"ds-badge\">New</span> <span class=\"ds-badge ds-badge-gold\">Featured</span>",
+      "css": ":host{--c-surface:#24201a;--c-surface-2:#1c1913;--c-card:#2f2a22;--c-fg:#f0ebe0;--c-body:#d8cfba;--c-muted:#c2b8a2;--c-line:#0c0a07;--c-grass:#4b7131;--c-grass-hi:#7cc24a;--c-gold:#e0a92e;--c-wood:#8a5e35;--c-card-sh:rgba(0,0,0,.5);--c-shadow:rgba(0,0,0,.6)}.ds-badge{font-family:'Silkscreen',ui-monospace,monospace;display:inline-flex;align-items:center;border:2px solid var(--c-line);padding:4px 6px;font-size:8px;line-height:1;text-transform:uppercase;letter-spacing:.03em;background:var(--c-surface-2);color:var(--c-fg)}.ds-badge-gold{background:var(--c-gold);color:#2a2620}"
+    },
+    {
+      "name": "Coordinate Chip",
+      "kind": "custom",
+      "refersTo": "coord",
+      "description": "Click-to-copy coordinates; the signature lookup control.",
+      "html": "<button class=\"ds-coord\">-88 64 -22</button>",
+      "css": ":host{--c-surface:#24201a;--c-surface-2:#1c1913;--c-card:#2f2a22;--c-fg:#f0ebe0;--c-body:#d8cfba;--c-muted:#c2b8a2;--c-line:#0c0a07;--c-grass:#4b7131;--c-grass-hi:#7cc24a;--c-gold:#e0a92e;--c-wood:#8a5e35;--c-card-sh:rgba(0,0,0,.5);--c-shadow:rgba(0,0,0,.6)}.ds-coord{display:inline-flex;align-items:center;gap:4px;font-family:ui-monospace,monospace;font-size:.78rem;padding:2px 8px;border:2px solid var(--c-line);background:var(--c-surface-2);color:var(--c-muted);cursor:pointer;transition:color .15s,border-color .15s}.ds-coord:hover,.ds-coord:focus-visible{border-color:var(--c-grass-hi);color:var(--c-fg);outline:none}"
+    },
+    {
+      "name": "Framed Figure",
+      "kind": "custom",
+      "refersTo": "panel",
+      "description": "Screenshot frame with an oak nameplate caption.",
+      "html": "<figure class=\"ds-fig\"><div class=\"ds-fig-img\"></div><figcaption>Season 4 spawn at dusk</figcaption></figure>",
+      "css": ":host{--c-surface:#24201a;--c-surface-2:#1c1913;--c-card:#2f2a22;--c-fg:#f0ebe0;--c-body:#d8cfba;--c-muted:#c2b8a2;--c-line:#0c0a07;--c-grass:#4b7131;--c-grass-hi:#7cc24a;--c-gold:#e0a92e;--c-wood:#8a5e35;--c-card-sh:rgba(0,0,0,.5);--c-shadow:rgba(0,0,0,.6)}.ds-fig{margin:0;max-width:280px}.ds-fig-img{height:140px;background:linear-gradient(#4b7131 0 40%,#8a5e35 40%);border:3px solid var(--c-line);box-shadow:4px 4px 0 var(--c-card-sh)}.ds-fig figcaption{background:var(--c-wood);color:#fff;font:12px 'Nunito Sans',system-ui,sans-serif;padding:8px 10px;border:3px solid var(--c-line);border-top:0;box-shadow:4px 4px 0 var(--c-card-sh)}"
+    },
+    {
+      "name": "Breadcrumbs",
+      "kind": "nav",
+      "refersTo": "button",
+      "description": "Pixel breadcrumb trail on the Deep Dirt strip.",
+      "html": "<nav class=\"ds-crumbs\"><a href=\"#\">Slabserver</a><span class=\"sep\">/</span><a href=\"#\">Survival</a><span class=\"sep\">/</span><span aria-current=\"page\">Spawn</span></nav>",
+      "css": ":host{--c-surface:#24201a;--c-surface-2:#1c1913;--c-card:#2f2a22;--c-fg:#f0ebe0;--c-body:#d8cfba;--c-muted:#c2b8a2;--c-line:#0c0a07;--c-grass:#4b7131;--c-grass-hi:#7cc24a;--c-gold:#e0a92e;--c-wood:#8a5e35;--c-card-sh:rgba(0,0,0,.5);--c-shadow:rgba(0,0,0,.6)}.ds-crumbs{font-family:'Silkscreen',ui-monospace,monospace;display:flex;gap:6px;align-items:center;font-size:10px;text-transform:uppercase;letter-spacing:.04em;background:var(--c-surface-2);padding:8px 12px;border-bottom:3px solid var(--c-line)}.ds-crumbs a{color:var(--c-muted);text-decoration:none}.ds-crumbs a:hover,.ds-crumbs a:focus-visible{color:var(--c-grass-hi)}.ds-crumbs .sep{color:#b8ad98}.ds-crumbs [aria-current]{color:var(--c-fg)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Survival Inventory",
+    "overview": "SlabWiki should look like Minecraft's own UI. Every surface is a slot or a panel from the game: hard corners, near-black outlines, buttons that press down into their shadow, and pixel labels over everything that names something. Visitors should feel they've opened another in-game screen, not a SaaS dashboard with a Minecraft skin on top.\n\nDepth is structural. Panels stack like placed blocks, and each layer of importance gets a heavier outline and a longer hard shadow. Nothing floats on blur. The palette is overworld dirt at night, lit by grass and gold: warm dark soil for the ground, grass green for the living parts (active states, headings, links), and gold for anything worth noticing (seasons, featured items). Light mode is the same world in daylight, not a separate identity.\n\nComponents are chunky and tactile. Thick borders, stepped `steps(2)` hover snaps, and press-down active states make everything feel placed rather than rendered. Screenshots are framed like item-frame exhibits. The chrome sits on a pixel checkerboard or a darkened spawn screenshot, so the wiki always reads as part of the server.",
+    "keyCharacteristics": [
+      "Hard corners everywhere (0px radius).",
+      "Near-black outlines at 2, 3 or 4px, in both themes.",
+      "Hard offset shadows only, no blur. They lengthen with elevation.",
+      "Silkscreen pixel type on every heading, label, badge and button. Nunito Sans for reading.",
+      "Real Minecraft item sprites for icons, rendered pixelated. Never emoji.",
+      "Stepped, snappy motion (`steps(2)`, 50–100ms). Nothing eases softly."
+    ],
+    "rules": [
+      {
+        "name": "The Token-Only Rule",
+        "body": "Templates never hardcode hex. Use `bg-*` / `text-*` / `border-*` token utilities so both themes stay in sync. To retune a color, edit all three theme blocks.",
+        "section": "colors"
+      },
+      {
+        "name": "The Constant Grass Rule",
+        "body": "Grass is the same in both themes, so text on a grass panel uses `on-grass` / `on-grass-dim`, never a theme-flipping token.",
+        "section": "colors"
+      },
+      {
+        "name": "The Gold Means Worth Noticing Rule",
+        "body": "Gold is for seasons and featured items only. If everything is gold, nothing is.",
+        "section": "colors"
+      },
+      {
+        "name": "The Pixel-Names-Things Rule",
+        "body": "Anything that names or labels (headings, buttons, badges, breadcrumbs, table headers, section labels) is Silkscreen. Anything you read for meaning (prose, descriptions, metadata) is Nunito Sans.",
+        "section": "typography"
+      },
+      {
+        "name": "The Size-It-Down Rule",
+        "body": "Silkscreen runs large. Size it explicitly per use and never inherit a body size into pixel type.",
+        "section": "typography"
+      },
+      {
+        "name": "The No-Blur Rule",
+        "body": "A shadow's blur radius is always 0. A soft shadow breaks the block world instantly.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Heavier-Is-Higher Rule",
+        "body": "Card (3px outline, 4px shadow), then panel (4px, 8px), then frame (4px, 12px). Don't give a small element a panel-weight shadow.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do outline every raised surface in Blackstone (line) at 2, 3 or 4px, choosing the weight by importance.",
+      "Do use hard offset shadows from the vocabulary (3, 4, 6, 8, 10 or 12px, blur 0) and let them lengthen with elevation.",
+      "Do set every heading, label, badge, breadcrumb and button in Silkscreen, sized explicitly.",
+      "Do use `steps(2)` or sub-100ms transitions for hover and press so motion snaps like the game.",
+      "Do render sprites, maps and pixel art with `image-rendering: pixelated`.",
+      "Do add new components to the `@layer components` block with `mc-` naming and token utilities, then show them on `/style-guide/`."
+    ],
+    "donts": [
+      "Don't round any corner.",
+      "Don't use blurred or soft shadows.",
+      "Don't use emoji as icons. Use Minecraft item sprites.",
+      "Don't hardcode hex in templates. Use theme tokens, and use `on-grass` for text on grass.",
+      "Don't use `@apply` with another component class (like `pixel`) inside a component. Inline `font-family: var(--font-pixel)` instead.",
+      "Don't spend gold on anything that isn't a season or a featured item."
+    ]
+  }
+}

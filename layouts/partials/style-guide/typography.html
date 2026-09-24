@@ -5,14 +5,15 @@
     <p class="text-sm text-muted">
       Two families: <strong class="text-fg">Silkscreen</strong> (pixel) for
       every heading, label and button, and <strong class="text-fg">Nunito
-      Sans</strong> for body copy. Base font size is 17px on
+      Sans</strong> for body copy. Silkscreen only renders crisp at multiples
+      of 8px, so it uses four sizes: 8, 16, 24 and 32. Base font size is 17px on
       <code class="text-fg">&lt;html&gt;</code>.
     </p>
 
     <div class="grid sm:grid-cols-2 gap-5">
       <div class="mc-card p-4">
         <div class="pixel-label text-wood-l mb-3">Silkscreen · var(--font-pixel)</div>
-        <div class="pixel text-[30px] leading-none mb-3">Aa Bb 123</div>
+        <div class="pixel text-pixel-display leading-none mb-3">Aa Bb 123</div>
         <p class="text-xs text-muted">Headings, badges, buttons, section labels. Runs large - size it down per use.</p>
       </div>
       <div class="mc-card p-4">
@@ -34,12 +35,12 @@
         </thead>
         <tbody>
           {{ range slice
-              (dict "r" "Page title"      "c" ".pixel"       "s" "26-30px" "smp" "<span class='pixel text-[22px]'>Spawn</span>")
-              (dict "r" "Section heading" "c" ".section-h / prose h2" "s" "17px" "smp" "<span class='pixel text-grass-hi text-[15px]'>Features</span>")
-              (dict "r" "Sub heading"     "c" "prose h3"      "s" "14px" "smp" "<span class='pixel text-grass-hi text-[13px]'>Design</span>")
-              (dict "r" "Micro-label"     "c" ".pixel-label"  "s" "10px" "smp" "<span class='pixel-label text-wood-l'>Navigate</span>")
+              (dict "r" "Page title"      "c" ".pixel text-pixel-display" "s" "32px (24px on phones)" "smp" "<span class='pixel text-pixel-heading'>Spawn</span>")
+              (dict "r" "Section heading" "c" ".section-h / prose h2" "s" "24px" "smp" "<span class='pixel text-grass-hi text-pixel-heading'>Features</span>")
+              (dict "r" "Card title / sub heading" "c" "text-pixel-title / prose h3" "s" "16px" "smp" "<span class='pixel text-grass-hi text-pixel-title'>Design</span>")
+              (dict "r" "Micro-label"     "c" ".pixel-label"  "s" "8px"  "smp" "<span class='pixel-label text-wood-l'>Navigate</span>")
               (dict "r" "Badge / tag"     "c" ".mc-badge"     "s" "8px"  "smp" "<span class='mc-badge mc-badge-gold'>Featured</span>")
-              (dict "r" "Button"          "c" ".mc-btn"       "s" "10px" "smp" "<span class='pixel text-[10px] uppercase'>Explore</span>")
+              (dict "r" "Button"          "c" ".mc-btn"       "s" "8px"  "smp" "<span class='pixel text-pixel-label uppercase'>Explore</span>")
               (dict "r" "Body copy"       "c" ".prose"        "s" "16.5px / 1.75" "smp" "<span class='text-body'>Built over many months.</span>") }}
           <tr>
             <td class="border-2 border-rowline px-3 py-2 text-fg">{{ .r }}</td>

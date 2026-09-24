@@ -8,7 +8,7 @@
   {{ with $box.image }}
   <div class="relative border-b-4 border-line">
     <img src="{{ . | strings.TrimPrefix "/" | relURL }}" alt="{{ $title }}" class="w-full h-[150px] object-cover pixelated block">
-    <span class="pixel absolute bottom-2 left-2 text-[7px] uppercase text-white bg-[rgba(42,38,32,.7)] px-1.5 py-1">{{ $title }}</span>
+    <span class="pixel absolute bottom-2 left-2 text-pixel-label uppercase text-white bg-[rgba(42,38,32,.7)] px-1.5 py-1">{{ $title }}</span>
   </div>
   {{ end }}
   <dl class="text-[13.5px] py-1">

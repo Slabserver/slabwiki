@@ -34,8 +34,30 @@
   {{ end }}
 {{ end }}
 
-<div class="flex flex-wrap gap-3 mb-8">
-  <div class="mc-card grow basis-52 flex items-center gap-3 px-4 py-3">
+{{/* Mobile quick links for this season. The sidebar's Quick links panel is
+     hidden below lg, so without this the lookups sit far down the page. */}}
+{{ $quick := slice }}
+{{ range hugo.Data.sections.sections }}
+  {{ $srv := . }}
+  {{ range $ql := .quicklinks }}
+    {{ with site.GetPage (printf "/%s/%s" $srv.slug $ql.slug) }}
+      {{ if hasPrefix .RelPermalink $.RelPermalink }}{{ $quick = $quick | append (dict "page" . "icon" $ql.icon "title" $ql.title) }}{{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ with $quick }}
+<nav class="lg:hidden grid grid-cols-2 gap-2.5 mb-5" aria-label="Season quick links">
+  {{ range . }}
+  <a href="{{ .page.RelPermalink }}" class="mc-btn text-pixel-label py-2.5 [&:last-child:nth-child(odd)]:col-span-2">
+    {{ partial "mc-icon.html" (dict "slug" .icon "lg" true) }}{{ .title }}
+  </a>
+  {{ end }}
+</nav>
+{{ end }}
+
+{{/* Two tiles per row on phones (sprites dropped to fit) so the stats stay a short strip. */}}
+<div class="flex flex-wrap gap-2.5 sm:gap-3 mb-8">
+  <div class="mc-card grow basis-2/5 sm:basis-52 max-sm:[&>.icon-minecraft]:hidden! flex items-center gap-2.5 sm:gap-3 px-3 py-2 sm:px-4 sm:py-3">
     {{ partial "mc-icon.html" (dict "slug" "grass-block" "lg" true) }}
     <div class="flex flex-col gap-1.5 min-w-0">
       <span class="pixel-label text-wood-l">Status</span>
@@ -45,7 +67,7 @@
     </div>
   </div>
   {{ if $showDates }}
-  <div class="mc-card grow basis-52 flex items-center gap-3 px-4 py-3">
+  <div class="mc-card grow basis-2/5 sm:basis-52 max-sm:[&>.icon-minecraft]:hidden! flex items-center gap-2.5 sm:gap-3 px-3 py-2 sm:px-4 sm:py-3">
     {{ partial "mc-icon.html" (dict "slug" "clock" "lg" true) }}
     <div class="flex flex-col gap-1.5 min-w-0">
       <span class="pixel-label text-wood-l">Dates</span>
@@ -54,7 +76,7 @@
   </div>
   {{ end }}
   {{ with $durText }}
-  <div class="mc-card grow basis-52 flex items-center gap-3 px-4 py-3">
+  <div class="mc-card grow basis-2/5 sm:basis-52 max-sm:[&>.icon-minecraft]:hidden! flex items-center gap-2.5 sm:gap-3 px-3 py-2 sm:px-4 sm:py-3">
     {{ partial "mc-icon.html" (dict "slug" "book" "lg" true) }}
     <div class="flex flex-col gap-1.5 min-w-0">
       <span class="pixel-label text-wood-l">Duration</span>
@@ -63,7 +85,7 @@
   </div>
   {{ end }}
   {{ if gt $entries 0 }}
-  <div class="mc-card grow basis-52 flex items-center gap-3 px-4 py-3">
+  <div class="mc-card grow basis-2/5 sm:basis-52 max-sm:[&>.icon-minecraft]:hidden! flex items-center gap-2.5 sm:gap-3 px-3 py-2 sm:px-4 sm:py-3">
     {{ partial "mc-icon.html" (dict "slug" "bookshelf" "lg" true) }}
     <div class="flex flex-col gap-1.5 min-w-0">
       <span class="pixel-label text-wood-l">Documented</span>
@@ -72,7 +94,7 @@
   </div>
   {{ end }}
   {{ if gt $shops 0 }}
-  <div class="mc-card grow basis-52 flex items-center gap-3 px-4 py-3">
+  <div class="mc-card grow basis-2/5 sm:basis-52 max-sm:[&>.icon-minecraft]:hidden! flex items-center gap-2.5 sm:gap-3 px-3 py-2 sm:px-4 sm:py-3">
     {{ partial "mc-icon.html" (dict "slug" "emerald" "lg" true) }}
     <div class="flex flex-col gap-1.5 min-w-0">
       <span class="pixel-label text-wood-l">Shops</span>
@@ -81,11 +103,11 @@
   </div>
   {{ end }}
   {{ with site.GetPage (printf "/survival/%s/map" $season) }}
-  <a href="{{ .RelPermalink }}" class="mc-card mc-card-hover no-underline grow basis-52 flex items-center gap-3 px-4 py-3">
+  <a href="{{ .RelPermalink }}" class="mc-card mc-card-hover no-underline grow basis-2/5 sm:basis-52 max-sm:[&>.icon-minecraft]:hidden! items-center gap-2.5 sm:gap-3 px-3 py-2 sm:px-4 sm:py-3 {{ if $quick }}hidden lg:flex{{ else }}flex{{ end }}">
     {{ partial "mc-icon.html" (dict "slug" "filled-map" "lg" true) }}
     <div class="flex flex-col gap-1.5 min-w-0">
       <span class="pixel-label text-wood-l">Map</span>
-      <span class="text-fg font-bold text-[14px] leading-tight">View world map →</span>
+      <span class="text-fg font-bold text-[14px] leading-tight">View world map</span>
     </div>
   </a>
   {{ end }}

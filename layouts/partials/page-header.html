@@ -2,9 +2,9 @@
 {{- $eyebrow := .eyebrow -}}
 {{- $divider := .divider | default "mt-4" -}}
 <div class="mb-5">
-  {{ with .backHref }}<a href="{{ . }}" class="mc-btn mc-btn-dark !py-1.5 !px-2.5 text-[12px] inline-block mb-3">← {{ $.backLabel | default "Back" }}</a>{{ end }}
-  {{ with $eyebrow }}<span class="pixel-label text-gold">{{ . }}</span>{{ end }}
-  <h1 class="pixel text-[26px] md:text-[30px] flex items-center gap-3{{ if $eyebrow }} mt-1.5{{ end }}">
+  {{ with .backHref }}<a href="{{ . }}" class="mc-btn mc-btn-dark !py-1.5 !px-2.5 text-pixel-label inline-flex mb-3">{{ partial "mc-icon.html" "recovery-compass" }}{{ $.backLabel | default "Back" }}</a>{{ end }}
+  {{ with $eyebrow }}<span class="pixel-label text-gold-hi">{{ . }}</span>{{ end }}
+  <h1 class="pixel text-pixel-heading md:text-pixel-display flex items-center gap-3{{ if $eyebrow }} mt-1.5{{ end }}">
     {{ with .icon }}{{ partial "mc-icon.html" (dict "slug" . "lg" true) }}{{ end }}
     <span>{{ .title }}</span>
   </h1>

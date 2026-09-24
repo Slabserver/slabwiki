@@ -18,7 +18,7 @@
     <a href="{{ .RelPermalink }}" class="mc-card mc-card-hover p-5 no-underline block">
       <div class="flex items-center gap-2 mb-1">
         {{ with .Params.icon }}{{ partial "mc-icon.html" (dict "slug" . "lg" true) }}{{ end }}
-        <span class="pixel text-[14px] text-grass-hi uppercase">{{ .Title }}</span>
+        <span class="pixel text-pixel-title text-grass-hi uppercase">{{ .Title }}</span>
       </div>
       <p class="text-sm text-muted">{{ .Description }}</p>
     </a>

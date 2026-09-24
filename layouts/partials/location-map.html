@@ -12,7 +12,7 @@
 <div class="border-t-4 border-line">
   {{ partial "slab-map.html" (dict "cfg" . "markers" (slice (dict "t" $title "u" "" "x" $xz.x "z" $xz.z "d" $dim)) "id" (printf "loc-map-%s" (md5 (printf "%s-%v-%v" $season $xz.x $xz.z))) "height" "160px" "mini" true "focus" $xz "dim" $dim) }}
   {{- $mapPage := site.GetPage (printf "/survival/%s/map" $season) -}}
-  <a href="{{ printf "%s?x=%v&z=%v&dim=%s" $mapPage.RelPermalink $xz.x $xz.z $dim }}" class="block text-center text-[11px] text-faint py-1.5 hover:text-fg no-underline">Open full map ↗</a>
+  <a href="{{ printf "%s?x=%v&z=%v&dim=%s" $mapPage.RelPermalink $xz.x $xz.z $dim }}" class="flex justify-center items-center gap-1.5 text-[11px] text-faint py-1.5 hover:text-fg no-underline">{{ partial "mc-icon.html" "filled-map" }}Open full map</a>
 </div>
 {{ end }}
 {{ end }}

@@ -34,9 +34,9 @@
     </div>
 
     {{/*  Collapsible  */}}
-    {{ partial "style-guide/caption.html" (dict "name" ".mc-details / .mc-details-body" "note" "Styled <details>. Pixel caret rotates on open. Good for drop tables, long recipes, hidden coords.") }}
+    {{ partial "style-guide/caption.html" (dict "name" ".mc-details / .mc-details-body" "note" "Styled <details>. Arrow sprite turns on open. Good for drop tables, long recipes, hidden coords.") }}
     <details class="mc-details max-w-lg">
-      <summary>Full drop table</summary>
+      <summary class="mc-details-summary">{{ partial "mc-icon.html" "arrow" }}Full drop table</summary>
       <div class="mc-details-body">
         <p>Rare drops roll on a 1/128 table; wither skeletons drop skulls at 2.5% (5.5% with Looting III).</p>
       </div>
@@ -152,8 +152,8 @@
     {{/*  Prev / next  */}}
     {{ partial "style-guide/caption.html" (dict "name" ".mc-prevnext" "note" "Paired previous / next article links for the foot of a page. Card lift on hover.") }}
     <nav class="mc-prevnext max-w-2xl" aria-label="Article navigation">
-      <a href="#" class="prev"><span class="dir">← Previous</span><span class="ttl">Shopping District</span></a>
-      <a href="#" class="next"><span class="dir">Next →</span><span class="ttl">Mob Farm Megabuild</span></a>
+      <a href="#" class="prev"><span class="dir">Previous</span><span class="ttl">Shopping District</span></a>
+      <a href="#" class="next"><span class="dir">Next</span><span class="ttl">Mob Farm Megabuild</span></a>
     </nav>
   </div>
 </section>

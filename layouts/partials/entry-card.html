@@ -30,12 +30,12 @@
   <div class="aspect-[16/10] overflow-hidden bg-surface-2 border-b-[3px] border-line relative">
     <img src="{{ . | strings.TrimPrefix "/" | relURL }}" alt="" loading="lazy" class="w-full h-full object-cover">
     {{ with $season }}
-    <span class="pixel absolute top-2 left-2 text-[7px] uppercase text-white bg-[rgba(0,0,0,.4)] px-1.5 py-1">{{ . }}</span>
+    <span class="pixel absolute top-2 left-2 text-pixel-label uppercase text-white bg-[rgba(0,0,0,.4)] px-1.5 py-1">{{ . }}</span>
     {{ end }}
   </div>
   {{ end }}
   <div class="p-4 flex flex-col gap-2 flex-1">
-    <h3 class="pixel text-[13px] uppercase text-fg leading-snug">
+    <h3 class="pixel text-pixel-title uppercase text-fg leading-snug">
       <a href="{{ .RelPermalink }}" class="stretched-link no-underline text-fg">{{ .Title }}</a>
     </h3>
     {{ with .Params.summary }}<p class="text-sm text-muted line-clamp-2">{{ . }}</p>

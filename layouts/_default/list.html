@@ -26,7 +26,7 @@
     <a href="{{ .RelPermalink }}" class="mc-card mc-card-hover no-underline p-5 flex items-center justify-between gap-3">
       <span class="flex items-center gap-2.5">
         {{ with $icon }}{{ partial "mc-icon.html" (dict "slug" . "lg" true) }}{{ end }}
-        <span class="pixel text-[15px] text-fg leading-tight">{{ .LinkTitle }}</span>
+        <span class="pixel text-pixel-title text-fg leading-tight">{{ .LinkTitle }}</span>
       </span>
       <span class="text-xs text-faint">{{ $count }} {{ cond (eq $count 1) "page" "pages" }}</span>
     </a>
@@ -50,11 +50,13 @@
       <div class="relative p-5 flex flex-col gap-1.5">
         <div class="flex items-center gap-2.5">
           {{ if not .Params.banner }}{{ with .Params.icon }}{{ partial "mc-icon.html" (dict "slug" . "lg" true) }}{{ end }}{{ end }}
-          <h3 class="pixel text-[15px] text-fg leading-tight">{{ .LinkTitle }}</h3>
+          <h3 class="pixel text-pixel-title text-fg leading-tight">{{ .LinkTitle }}</h3>
           {{ if .Params.current }}<span class="mc-badge mc-badge-gold">now</span>{{ end }}
         </div>
         {{ with .Description }}<p class="text-sm text-muted line-clamp-2">{{ . }}</p>{{ end }}
-        <div class="text-xs text-faint">{{ $count }} {{ cond (eq $count 1) "page" "pages" }}</div>
+        {{/* Sheet-driven sections (tunnels, resources) have no pages, so a zero count would read as empty. */}}
+        {{ if gt $count 0 }}{{ $noun := .Params.countNoun | default "page" }}
+        <div class="text-xs text-faint">{{ $count }} {{ cond (eq $count 1) $noun (pluralize $noun) }}</div>{{ end }}
       </div>
     </a>
     {{ end }}
@@ -106,7 +108,7 @@
         {{ end }}
         {{ end }}
       {{ end }}
-      <span class="text-sm text-faint ml-auto"><span id="season-count">{{ len $articles }}</span> shown</span>
+      <span class="text-sm text-faint ml-auto" aria-live="polite"><span id="season-count">{{ len $articles }}</span> shown</span>
     </div>
     <div id="season-grid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
       {{ range .ByTitle }}{{ partial "entry-card.html" . }}{{ end }}
@@ -132,7 +134,9 @@
       if (countEl) countEl.textContent = n;
       if (emptyEl) emptyEl.classList.toggle('hidden', n !== 0);
       chips.forEach(function (ch) {
-        ch.classList.toggle('is-on', ch.getAttribute('data-cat-filter') === sel);
+        var on = ch.getAttribute('data-cat-filter') === sel;
+        ch.classList.toggle('is-on', on);
+        ch.setAttribute('aria-pressed', on);
       });
     }
     chips.forEach(function (ch) {
