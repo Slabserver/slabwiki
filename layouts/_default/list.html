@@ -42,12 +42,17 @@
   <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-8">
     {{ range . }}
     {{ $count := len .RegularPages }}
-    <a href="{{ .RelPermalink }}" class="mc-card mc-card-hover no-underline relative overflow-hidden min-h-[128px] flex flex-col justify-end group">
+    {{ $thumb := "" }}{{ if not .Params.banner }}{{ with .Params.infobox }}{{ $thumb = .image }}{{ end }}{{ end }}
+    <a href="{{ .RelPermalink }}" class="mc-card mc-card-hover no-underline relative overflow-hidden min-h-[128px] flex flex-col {{ if .Params.banner }}justify-end{{ end }} group">
       {{ with .Params.banner }}
         <div class="absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-55 transition-opacity duration-300 pixelated" style="background-image:url('{{ . | strings.TrimPrefix "/" | relURL }}')"></div>
         <div class="absolute inset-0 bg-gradient-to-t from-card via-card/80 to-transparent"></div>
       {{ end }}
-      <div class="relative p-5 flex flex-col gap-1.5">
+      {{/* Sections without a banner but with an infobox photo (games) show it as a header strip. */}}
+      {{ with $thumb }}
+        <div class="aspect-[16/9] bg-cover bg-center border-b-[3px] border-line pixelated" style="background-image:url('{{ . | strings.TrimPrefix "/" | relURL }}')"></div>
+      {{ end }}
+      <div class="relative p-5 flex flex-col gap-1.5 flex-1">
         <div class="flex items-center gap-2.5">
           {{ if not .Params.banner }}{{ with .Params.icon }}{{ partial "mc-icon.html" (dict "slug" . "lg" true) }}{{ end }}{{ end }}
           <h3 class="pixel text-pixel-title text-fg leading-tight">{{ .LinkTitle }}</h3>
@@ -55,8 +60,12 @@
         </div>
         {{ with .Description }}<p class="text-sm text-muted line-clamp-2">{{ . }}</p>{{ end }}
         {{/* Sheet-driven sections (tunnels, resources) have no pages, so a zero count would read as empty. */}}
-        {{ if gt $count 0 }}{{ $noun := .Params.countNoun | default "page" }}
-        <div class="text-xs text-faint">{{ $count }} {{ cond (eq $count 1) $noun (pluralize $noun) }}</div>{{ end }}
+        {{ $type := "" }}{{ with .Params.infobox }}{{ $type = .Type }}{{ end }}
+        {{ if or $type (gt $count 0) }}
+        <div class="mt-auto pt-2 flex items-center gap-2 text-xs text-faint">
+          {{ with $type }}<span class="mc-badge">{{ . }}</span>{{ end }}
+          {{ if gt $count 0 }}{{ $noun := .Params.countNoun | default "page" }}<span>{{ $count }} {{ cond (eq $count 1) $noun (pluralize $noun) }}</span>{{ end }}
+        </div>{{ end }}
       </div>
     </a>
     {{ end }}
