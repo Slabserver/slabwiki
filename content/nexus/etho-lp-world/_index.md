@@ -30,6 +30,6 @@ When you join, you get a menu item in your hotbar. Use it to pick an episode and
 
 ## Under the Hood
 
-The server doesn't load all the separate worlds. A custom packet-level plugin sends each player the chunks from their chosen snapshot as fake chunks. [ItemJoin](https://www.spigotmc.org/resources/itemjoin.12276/) gives the hotbar items, and a custom Paper fork disables world saving.
+The server doesn't load all the separate worlds. A custom packet-level plugin sends each player the chunks from their chosen snapshot as fake chunks. [ItemJoin](https://modrinth.com/plugin/itemjoin) gives the hotbar items, and a custom Paper fork disables world saving.
 
 This did mean the worlds needed to be converted to the latest Minecraft version as far back as Beta 1.9, which has created some block state issues. The lighting was rebaked to match the original worlds for example the transparent piston Etho used a lot of.
