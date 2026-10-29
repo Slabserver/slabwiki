@@ -1,0 +1,2 @@
+{{- /* Whole years since a date, e.g. {{< years-since "2011-09-30" >}}. Updates on each build. */ -}}
+{{- $d := time (.Get 0) -}}{{- $y := sub now.Year $d.Year -}}{{- if lt now.YearDay $d.YearDay }}{{ $y = sub $y 1 }}{{ end -}}{{- $y -}}
