@@ -3,6 +3,10 @@
 {{ $cfg := index (index hugo.Data.maps "seasons") $season }}
 {{ $seasonPage := .Parent }}
 
+{{/* Traced routes from data/paths/<season>/*.json (made by path-tools/clean_path.py). */}}
+{{ $paths := slice }}
+{{ with hugo.Data.paths }}{{ range index . $season }}{{ $paths = $paths | append . }}{{ end }}{{ end }}
+
 {{ $markers := slice }}
 {{ if $seasonPage }}
 {{ range $seasonPage.RegularPagesRecursive }}
@@ -26,7 +30,7 @@
   {{ with .Description }}<p class="text-muted text-sm mt-1.5">{{ . }}</p>{{ end }}
   <div class="stripe-divider my-4"></div>
   {{ if $cfg }}
-  {{ partial "slab-map.html" (dict "cfg" $cfg "markers" $markers "id" "season-map" "height" "70vh" "autofit" true) }}
+  {{ partial "slab-map.html" (dict "cfg" $cfg "markers" $markers "paths" $paths "id" "season-map" "height" "70vh" "autofit" true) }}
   <p class="text-xs text-faint mt-2">{{ len $markers }} documented locations plotted. Click the map to copy world coordinates.</p>
   {{ else }}
   <p class="text-muted">No map is configured for this season yet.</p>

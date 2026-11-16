@@ -19,6 +19,25 @@ const SCALE_FACTOR = 0.0625; // matches Pl3xMap's default world-to-pixel ratio
 function worldToLatLng(x, z) {
     return [z, x];
 }
+// Tile layer that fetches tiles and draws them to canvas, since the site CSP's img-src blocks the tile host.
+// Needs CORS on the tile server.
+const FetchTileLayer = L.TileLayer.extend({
+    createTile(coords, done) {
+        const tile = document.createElement('canvas');
+        const size = this.getTileSize();
+        tile.width = size.x;
+        tile.height = size.y;
+        fetch(this.getTileUrl(coords))
+            .then((r) => (r.ok ? r.blob() : Promise.reject(new Error(String(r.status)))))
+            .then(createImageBitmap)
+            .then((bmp) => {
+            tile.getContext('2d').drawImage(bmp, 0, 0, size.x, size.y);
+            done(undefined, tile);
+        })
+            .catch((e) => done(e, tile));
+        return tile;
+    },
+});
 function initMap(el) {
     var _a;
     const tilesBase = el.dataset.tilesBase;
@@ -31,6 +50,7 @@ function initMap(el) {
     const detailZoom = Number(el.dataset.detailZoom || 7);
     const [cx, cz] = (el.dataset.center || '0,0').split(',').map(Number);
     const markers = el.dataset.markers ? JSON.parse(el.dataset.markers) : [];
+    const paths = el.dataset.paths ? JSON.parse(el.dataset.paths) : [];
     const params = new URLSearchParams(window.location.search);
     const qx = params.has('x') ? Number(params.get('x')) : null;
     const qz = params.has('z') ? Number(params.get('z')) : null;
@@ -67,7 +87,7 @@ function initMap(el) {
     function setDimension(dim) {
         if (currentLayer)
             map.removeLayer(currentLayer);
-        currentLayer = L.tileLayer(tileUrl(dim), {
+        currentLayer = new FetchTileLayer(tileUrl(dim), {
             tileSize: 512,
             noWrap: true,
             minNativeZoom: 0,
@@ -90,6 +110,11 @@ function initMap(el) {
             }
             return marker;
         })).addTo(map);
+        if (dim === 'overworld') {
+            paths.forEach((p) => L.polyline(p.points.map(([x, z]) => worldToLatLng(x, z)), { color: '#c00', weight: 3, interactive: !mini })
+                .bindTooltip(`${p.name} (${p.length} blocks)`, { sticky: true })
+                .addTo(markerLayer));
+        }
     }
     setDimension(initialDim);
     L.control.scale({ imperial: false }).addTo(map);

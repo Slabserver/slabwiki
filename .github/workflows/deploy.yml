@@ -3,6 +3,9 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  # Daily rebuild so edits to the shop directory sheet go live without a push.
+  schedule:
+    - cron: '17 4 * * *'
   workflow_dispatch:
     inputs:
       reason:

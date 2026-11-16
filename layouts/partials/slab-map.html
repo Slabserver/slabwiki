@@ -2,7 +2,8 @@
      "id" <optional dom id> "height" <optional css height> "autofit" <bool, fit view to
      markers instead of cfg center/zoom> "mini" <bool, small non-interactive preview>
      "focus" <dict x/z, single point the mini preview centers on> "dim" <optional initial
-     dimension key: overworld/nether/the_end, defaults to overworld> */ -}}
+     dimension key: overworld/nether/the_end, defaults to overworld> "paths" <optional slice of
+     dict name/closed/length/points, overworld polylines> */ -}}
 {{- $cfg := .cfg -}}
 {{- $markers := .markers | default slice -}}
 {{- $id := .id | default "slab-map" -}}
@@ -24,4 +25,5 @@
      {{ if $mini }}data-mini="true"{{ end }}
      {{ if .autofit }}data-autofit="true"{{ end }}
      {{ with .focus }}data-focus="{{ .x }},{{ .z }}"{{ end }}
+     {{ with .paths }}data-paths='{{ jsonify . }}'{{ end }}
      data-markers='{{ jsonify $markers }}'></div>
