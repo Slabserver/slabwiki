@@ -3,9 +3,12 @@
 {{ $cfg := index (index hugo.Data.maps "seasons") $season }}
 {{ $seasonPage := .Parent }}
 
-{{/* Traced routes from data/paths/<season>/*.json (made by path-tools/clean_path.py). */}}
+{{/* Routes from data/paths/<season>/: network.json (path-tools/build_graph.py) already merges
+     every walk, so it replaces the single traced routes when present. */}}
 {{ $paths := slice }}
-{{ with hugo.Data.paths }}{{ range index . $season }}{{ $paths = $paths | append . }}{{ end }}{{ end }}
+{{ with hugo.Data.paths }}{{ with index . $season }}
+  {{ with .network }}{{ $paths = .paths }}{{ else }}{{ range . }}{{ $paths = $paths | append . }}{{ end }}{{ end }}
+{{ end }}{{ end }}
 
 {{ $markers := slice }}
 {{ if $seasonPage }}

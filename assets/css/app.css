@@ -2709,6 +2709,9 @@
   .slab-map .leaflet-tile {
     image-rendering: pixelated;
   }
+  .slab-map.leaflet-container {
+    background-color: var(--color-black) !important;
+  }
   .slab-map-mini {
     cursor: default;
     border-bottom-style: var(--tw-border-style);
@@ -2742,6 +2745,66 @@
   }
   .slab-dimension-control a.active {
     background-color: var(--color-wood);
+  }
+  .slab-map-tools {
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden;
+  }
+  .slab-map-tools a {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    border-bottom-style: var(--tw-border-style);
+    border-bottom-width: 2px;
+    border-color: var(--color-line);
+    background-color: var(--color-surface-2);
+    &:last-child {
+      border-bottom-style: var(--tw-border-style);
+      border-bottom-width: 0px;
+    }
+    width: 32px !important;
+    height: 32px !important;
+    line-height: 0 !important;
+    padding: 0 !important;
+  }
+  .slab-map-tools a:hover {
+    background-color: var(--color-surface);
+  }
+  .slab-map-readout {
+    border-style: var(--tw-border-style);
+    border-width: 2px;
+    border-color: var(--color-line);
+    background-color: var(--color-surface-2);
+    padding-inline: calc(var(--spacing) * 2);
+    padding-block: var(--spacing);
+    font-size: 11px;
+    white-space: pre;
+    color: var(--color-fg);
+    font-family: var(--font-pixel);
+  }
+  .slab-map-readout:empty {
+    display: none;
+  }
+  .slab-map .leaflet-control-layers {
+    border-radius: 0;
+    border-style: var(--tw-border-style);
+    border-width: 2px;
+    border-color: var(--color-line);
+    background-color: var(--color-surface-2);
+    color: var(--color-fg);
+    --tw-shadow: 0 0 #0000;
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+    font-family: var(--font-pixel);
+  }
+  .slab-map .leaflet-control-layers-overlays label {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--spacing) * 1.5);
+  }
+  .slab-map:fullscreen {
+    height: 100%;
+    border: 0;
   }
   .chip {
     display: inline-flex;

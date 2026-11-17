@@ -19,20 +19,22 @@ const SCALE_FACTOR = 0.0625; // matches Pl3xMap's default world-to-pixel ratio
 function worldToLatLng(x, z) {
     return [z, x];
 }
-// Tile layer that fetches tiles and draws them to canvas, since the site CSP's img-src blocks the tile host.
+// Tile layer that fetches tiles and shows them as data: URL images, since the site CSP's img-src blocks
+// the tile host (and blob:). Must stay <img>, not <canvas>: Leaflet's tile-seam CSS only targets img tiles.
 // Needs CORS on the tile server.
 const FetchTileLayer = L.TileLayer.extend({
     createTile(coords, done) {
-        const tile = document.createElement('canvas');
-        const size = this.getTileSize();
-        tile.width = size.x;
-        tile.height = size.y;
+        const tile = document.createElement('img');
+        tile.alt = '';
+        tile.setAttribute('role', 'presentation');
+        tile.onload = () => done(undefined, tile);
+        tile.onerror = () => done(new Error('tile decode failed'), tile);
         fetch(this.getTileUrl(coords))
             .then((r) => (r.ok ? r.blob() : Promise.reject(new Error(String(r.status)))))
-            .then(createImageBitmap)
-            .then((bmp) => {
-            tile.getContext('2d').drawImage(bmp, 0, 0, size.x, size.y);
-            done(undefined, tile);
+            .then((blob) => {
+            const reader = new FileReader();
+            reader.onload = () => (tile.src = String(reader.result));
+            reader.readAsDataURL(blob);
         })
             .catch((e) => done(e, tile));
         return tile;
@@ -68,11 +70,12 @@ function initMap(el) {
         transformation: new L.Transformation(SCALE_FACTOR, 0, SCALE_FACTOR, 0),
     });
     const initialCenter = hasFocus ? worldToLatLng(fx, fz) : worldToLatLng(qx !== null && qx !== void 0 ? qx : cx, qz !== null && qz !== void 0 ? qz : cz);
-    const initialZoom = mini ? detailZoom : qx !== null ? Math.max(zoom, detailZoom) : zoom;
+    // A shared view link carries zoom; plain ?x=&z= links (coord chips, "Open full map") don't.
+    const qZoom = params.has('zoom') ? Number(params.get('zoom')) : null;
+    const initialZoom = mini ? detailZoom : qZoom !== null && qZoom !== void 0 ? qZoom : (qx !== null ? Math.max(zoom, detailZoom) : zoom);
     const map = L.map(el, {
         crs,
         preferCanvas: true,
-        zoomSnap: autofit ? 0 : 1,
         zoomControl: !mini,
         dragging: !mini,
         scrollWheelZoom: !mini,
@@ -83,8 +86,12 @@ function initMap(el) {
     }).setView(initialCenter, initialZoom, { animate: false });
     const tileUrl = (dim) => `${tilesBase}/${encodeURIComponent(world + DIMENSION_SUFFIX[dim])}/{z}/vanilla/{x}_{y}.png`;
     let currentLayer = null;
-    let markerLayer = null;
+    let currentDim = initialDim;
+    // Kept for the page's lifetime so the layers control can toggle them; refilled per dimension.
+    const markerGroup = L.layerGroup().addTo(map);
+    const routeGroup = L.layerGroup().addTo(map);
     function setDimension(dim) {
+        currentDim = dim;
         if (currentLayer)
             map.removeLayer(currentLayer);
         currentLayer = new FetchTileLayer(tileUrl(dim), {
@@ -98,22 +105,20 @@ function initMap(el) {
             tms: true,
             attribution: '<a href="https://modrinth.com/plugin/pl3xmap/">Pl3xMap</a>',
         }).addTo(map);
-        if (markerLayer)
-            map.removeLayer(markerLayer);
-        markerLayer = L.layerGroup(markers
+        markerGroup.clearLayers();
+        routeGroup.clearLayers();
+        markers
             .filter((m) => { var _a; return ((_a = m.d) !== null && _a !== void 0 ? _a : 'overworld') === dim; })
-            .map((m) => {
+            .forEach((m) => {
             const marker = L.marker(worldToLatLng(m.x, m.z));
             if (!mini) {
                 const label = m.u ? `<a href="${m.u}">${m.t}</a>` : m.t;
                 marker.bindPopup(`${label}<br><span class="text-faint">${m.x}, ${m.z}</span>`);
             }
-            return marker;
-        })).addTo(map);
+            marker.addTo(markerGroup);
+        });
         if (dim === 'overworld') {
-            paths.forEach((p) => L.polyline(p.points.map(([x, z]) => worldToLatLng(x, z)), { color: '#c00', weight: 3, interactive: !mini })
-                .bindTooltip(`${p.name} (${p.length} blocks)`, { sticky: true })
-                .addTo(markerLayer));
+            paths.forEach((p) => L.polyline(p.points.map(([x, z]) => worldToLatLng(x, z)), { color: '#c00', weight: 3, interactive: false }).addTo(routeGroup));
         }
     }
     setDimension(initialDim);
@@ -141,6 +146,9 @@ function initMap(el) {
             },
         });
         new DimensionControl({ position: 'topright' }).addTo(map);
+        L.control
+            .layers(undefined, { Locations: markerGroup, Routes: routeGroup }, { position: 'topright' })
+            .addTo(map);
     }
     // getBoundsZoom degenerates to maxZoom if the container is still
     // display:none (e.g. a collapsed toggle) when this runs, since it measures
@@ -158,18 +166,77 @@ function initMap(el) {
     }
     if (el.offsetParent !== null)
         applyAutofit();
-    if (!mini && qx !== null && qz !== null) {
+    if (!mini && qx !== null && qz !== null && qZoom === null) {
         L.marker(worldToLatLng(qx, qz), { title: 'Location' })
             .addTo(map)
             .bindPopup(`${qx}, ${qz}`)
             .openPopup();
     }
     if (!mini) {
+        // Bottom-left readout of the world coords under the cursor; also flashes copy confirmations.
+        const readout = L.DomUtil.create('div', 'slab-map-readout');
+        let flashTimer = 0;
+        const flash = (text) => {
+            readout.textContent = text;
+            clearTimeout(flashTimer);
+            flashTimer = window.setTimeout(() => {
+                flashTimer = 0;
+                readout.textContent = '';
+            }, 1200);
+        };
+        const ReadoutControl = L.Control.extend({ onAdd: () => readout });
+        new ReadoutControl({ position: 'bottomleft' }).addTo(map);
+        map.on('mousemove', (e) => {
+            if (flashTimer)
+                return;
+            readout.textContent = `X ${Math.round(e.latlng.lng)}  Z ${Math.round(e.latlng.lat)}`;
+        });
+        map.on('mouseout', () => (readout.textContent = ''));
         map.on('click', (e) => {
+            var _a;
             const x = Math.round(e.latlng.lng);
             const z = Math.round(e.latlng.lat);
-            navigator.clipboard && navigator.clipboard.writeText(`${x} ${z}`);
+            (_a = navigator.clipboard) === null || _a === void 0 ? void 0 : _a.writeText(`${x} ${z}`).then(() => flash(`Copied ${x} ${z}`));
         });
+        const ToolsControl = L.Control.extend({
+            onAdd() {
+                const wrap = L.DomUtil.create('div', 'leaflet-bar slab-map-tools');
+                L.DomEvent.disableClickPropagation(wrap);
+                const button = (title, icon, onClick) => {
+                    const btn = L.DomUtil.create('a', '', wrap);
+                    btn.href = '#';
+                    btn.title = title;
+                    btn.setAttribute('role', 'button');
+                    btn.setAttribute('aria-label', title);
+                    L.DomUtil.create('span', `icon-minecraft icon-minecraft-${icon}`, btn).setAttribute('aria-hidden', 'true');
+                    L.DomEvent.on(btn, 'click', (e) => {
+                        L.DomEvent.preventDefault(e);
+                        onClick();
+                    });
+                };
+                button('Fullscreen', 'spyglass', () => {
+                    if (document.fullscreenElement)
+                        document.exitFullscreen();
+                    else
+                        el.requestFullscreen();
+                });
+                button('Copy link to this view', 'lead', () => {
+                    var _a;
+                    const c = map.getCenter();
+                    const q = new URLSearchParams({
+                        x: String(Math.round(c.lng)),
+                        z: String(Math.round(c.lat)),
+                        zoom: String(map.getZoom()),
+                        dim: currentDim,
+                    });
+                    const url = `${location.origin}${location.pathname}?${q}`;
+                    (_a = navigator.clipboard) === null || _a === void 0 ? void 0 : _a.writeText(url).then(() => flash('Copied link'));
+                });
+                return wrap;
+            },
+        });
+        new ToolsControl({ position: 'topleft' }).addTo(map);
+        document.addEventListener('fullscreenchange', () => map.invalidateSize({ animate: false }));
     }
     // Maps rendered inside a collapsed <details>/toggle section start out
     // display:none, so Leaflet measures a 0x0 viewport and only loads one

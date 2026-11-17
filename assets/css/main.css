@@ -571,6 +571,10 @@
     height: 500px;
   }
   .slab-map .leaflet-tile { image-rendering: pixelated; }
+  /* Dark ground like Pl3xMap's own viewer, so sub-pixel tile seams and not-yet-loaded tiles
+     don't flash Leaflet's light grey. Same in both themes since the tiles are.
+     Needs ! because unlayered leaflet.css beats this layer. */
+  .slab-map.leaflet-container { @apply bg-black!; }
   .slab-map-mini {
     @apply border-b-0 cursor-default;
     height: 160px;
@@ -592,6 +596,33 @@
   }
   .slab-dimension-control a:hover { @apply bg-surface; }
   .slab-dimension-control a.active { @apply bg-wood; }
+
+  /* Fullscreen + copy-link buttons (same 32px box override as the dimension control). */
+  .slab-map-tools { @apply flex! flex-col! overflow-hidden; }
+  .slab-map-tools a {
+    @apply flex! items-center justify-center bg-surface-2 border-b-2 border-line last:border-b-0;
+    width: 32px !important;
+    height: 32px !important;
+    line-height: 0 !important;
+    padding: 0 !important;
+  }
+  .slab-map-tools a:hover { @apply bg-surface; }
+
+  /* Live cursor coords; hidden while empty. */
+  .slab-map-readout {
+    @apply bg-surface-2 border-2 border-line text-fg text-[11px] px-2 py-1 whitespace-pre;
+    font-family: var(--font-pixel);
+  }
+  .slab-map-readout:empty { display: none; }
+
+  /* Leaflet's layer toggle box, re-skinned to the hard-corner style. */
+  .slab-map .leaflet-control-layers {
+    @apply bg-surface-2 border-2 border-line text-fg rounded-none shadow-none;
+    font-family: var(--font-pixel);
+  }
+  .slab-map .leaflet-control-layers-overlays label { @apply flex items-center gap-1.5; }
+
+  .slab-map:fullscreen { height: 100%; border: 0; }
 
   /* Pill/tag chips (non-pixel, for inline metadata). */
   .chip {
